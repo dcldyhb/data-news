@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>数据镜头下的新职业生存实录 (最终完整版)</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2.1.0/dist/echarts-wordcloud.min.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+      integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucUutcjServCrA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#3B82F6",
+              secondary: "#F97316",
+              accent: "#10B981",
+              "cert-red": "#EF4444",
+              "uncert-gray": "#6B7280",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style type="text/tailwindcss">
+      :root {
+        --reveal-duration: 0.8s;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        @apply bg-gray-900 text-gray-300 antialiased;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        overflow-x: hidden;
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity var(--reveal-duration) ease-out,
+          transform var(--reveal-duration) ease-out;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .glow-card {
+        @apply relative overflow-hidden bg-gray-800/50 rounded-2xl;
+      }
+      .glow-card::before {
+        content: "";
+        @apply absolute inset-0 rounded-2xl border border-transparent -z-10;
+        background: linear-gradient(
+            120deg,
+            rgba(255, 255, 255, 0.15),
+            rgba(255, 255, 255, 0.05)
+          )
+          border-box;
+        -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+          linear-gradient(#fff 0 0);
+        -webkit-mask-composite: destination-out;
+        mask-composite: exclude;
+        pointer-events: none;
+      }
+      .danmaku {
+        @apply transition-all duration-200 ease-in-out cursor-pointer bg-gray-800/70 text-white px-4 py-2 rounded-full inline-flex items-center gap-2 whitespace-nowrap;
+      }
+      .danmaku:hover {
+        @apply scale-110 shadow-lg bg-primary;
+        z-index: 50 !important;
+      }
+      .scroll-text {
+        animation: scroll linear infinite;
+        @apply absolute;
+      }
+      @keyframes scroll {
+        from {
+          transform: translateX(100vw);
+        }
+        to {
+          transform: translateX(-100%);
+        }
+      }
+      .echarts-tooltip {
+        @apply !bg-gray-800 !border-gray-700 !text-gray-300;
+      }
+      .echarts-tooltip-name {
+        @apply !text-gray-400;
+      }
+      .echarts-tooltip-value {
+        @apply !font-bold;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-gray-300">
+    <header
+      class="min-h-screen flex items-center justify-center text-center p-8 relative overflow-hidden"
+    >
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-blue-900/50 via-gray-900 to-gray-900 z-0"
+      ></div>
+      <div
+        class="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-blue-500/20 rounded-full filter blur-3xl animate-pulse"
+      ></div>
+      <div
+        class="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-orange-500/20 rounded-full filter blur-3xl animate-pulse delay-1000"
+      ></div>
+      <div
+        id="danmaku-container"
+        class="absolute inset-0 z-10"
+        aria-hidden="true"
+      ></div>
+
+      <div class="relative z-20">
+        <h1
+          class="text-4xl md:text-7xl font-bold text-white mb-6 tracking-tight leading-tight"
+        >
+          数据镜头下的<br class="md:hidden" /><span
+            class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500"
+            >新职业</span
+          >
+          生存实录
+        </h1>
+        <div class="max-w-4xl mx-auto text-lg text-gray-400 space-y-4">
+          <p>
+            2025年5月，24岁的无人机飞行工程师陆子祥为“魅力重庆”无人机灯光秀提供飞行服务。2024年4月，浙江省首批“民宿管家”职业技能等级证书获得者孟金锦在莫干山民宿芝麻谷引导客人前往餐厅。
+          </p>
+          <p>
+            近年来，新兴职业逐渐兴起，就业结构不断发生改变。我们以权威数据为追光灯，深入分析新兴职业的发展现状、背后动因及面临的问题，展现这场关乎个体命运的职业变革。
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content"></main>
+
+    <footer class="text-center py-10 bg-gray-900 border-t border-gray-800">
+      <p class="text-gray-500">&copy; 2025 新职业观察报告.</p>
+    </footer>
+
+    <template id="section-template">
+      <section class="py-20 px-4 reveal">
+        <div class="max-w-7xl mx-auto">
+          <h2
+            class="text-3xl md:text-5xl font-bold text-center text-white mb-4"
+          ></h2>
+          <div class="subtitle text-center text-gray-500 mb-16"></div>
+          <div class="content-wrapper"></div>
+        </div>
+      </section>
+    </template>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // =================================================================
+        // 配置与数据定义
+        // =================================================================
+        const contentTemplates = {
+          status: `<div class="space-y-16"><div class="text-center max-w-3xl mx-auto">自2019年建立新职业信息发布制度以来，人社部已累计发布了110个新职业。</div><div class="lifecycle-chart w-full h-48 md:h-32"></div><div class="text-center max-w-3xl mx-auto">目前110个官方认证职业远不足以涵盖市面上的全部新兴职业，多种民间命名岗位尚未拥有“官方姓名”。以“元宇宙场景策划师”（含葬礼策划方向）为例，近3年岗位量年增350%，但至今仍未被纳入官方职业体系，这类“未认证职业”多停留在前两个阶段。</div><div class="professions-word-cloud w-full h-96 glow-card p-4"></div><div class="text-center max-w-3xl mx-auto">与此同时，新兴职业在不同地域、不同领域也呈现出不同发展态势。</div><div class="domain-barchart w-full h-96 glow-card p-4"></div></div>`,
+          drivers: `<div class="sankey-chart w-full h-[32rem] glow-card p-4"></div>`,
+          rectification: `<div class="text-center max-w-3xl mx-auto">职业名称的“正名”过程，藏着行业成熟的密码。2022年“银发经济”相关岗位中，38%的招聘信息使用“老年数字辅导员”“银发生活规划师”等民间称呼，直到2024 年 “老年数字服务师”被纳入新职业目录，才形成统一的职业标准。</div><div class="rectification-word-clouds w-full h-96 mt-12"></div>`,
+          predicament: `<div class="text-center max-w-3xl mx-auto">繁荣背后，新兴职业的权益保障仍存短板。数据显示，未认证职业从业者中，68%未签订规范劳动合同，45%无法享受带薪休假。</div><div class="rights-barchart w-full h-96 mt-12 glow-card p-4"></div>`,
+          reconstruction: `<div class="text-center max-w-3xl mx-auto space-y-4"><p>宋龙杰从一线收派件到获评“济南市技术能手”，再到成为首批E类高层次人才，他的逆袭成为数万从业者的缩影。</p><p>当代年轻人渴望摆脱传统职场的束缚、追求更加灵活的工作方式的态度。他们希望能够在自己的节奏下工作，充分发挥创造力，同时享受生活的平衡。</p></div><div class="factors-piechart w-full h-96 mt-12"></div>`,
+          conclusion: `<div class="text-center max-w-4xl mx-auto space-y-4"><p>从电影《她》走出的人工智能数字人训练师，从《聊斋志异》走出的服务犬驯养师……新兴职业的生长史，本质上是个体价值与时代需求的“动态应答”。</p><p>从技术驱动到政策规范，从权益保障到价值重构，每一组数据的波动，都在书写着就业市场的新规则——而那些尚未被命名的职业，或许正藏着未来社会的模样。</p></div><div class="future-map w-full h-96 mt-12 glow-card p-4 relative"></div><div class="mt-8 text-center"><p class="text-lg mb-4">你认为下一个被认证的职业会是？</p><input type="text" placeholder="输入你的想法..." class="bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-primary"><button class="bg-primary text-white font-bold py-2 px-6 rounded-lg ml-2 transition-transform hover:scale-105">提交</button></div>`,
+        };
+        const sections = [
+          { id: "status", title: "01. 行业现状", setup: setupStatusCharts },
+          {
+            id: "drivers",
+            title: "02. 驱动密码",
+            subtitle:
+              "新兴职业的爆发并非偶然，而是技术突破、市场需求与政策引导共同作用的结果。",
+            setup: setupSankeyChart,
+          },
+          {
+            id: "rectification",
+            title: "03. “正名”时间",
+            setup: setupRectificationCharts,
+          },
+          { id: "predicament", title: "04. 行业困境", setup: setupRightsChart },
+          {
+            id: "reconstruction",
+            title: "05. 价值重构",
+            setup: setupReconstructionChart,
+          },
+          { id: "conclusion", title: "结尾", setup: setupConclusionChart },
+        ];
+        const echartsTooltipOption = {
+          backgroundColor: "rgba(31, 41, 55, 0.9)",
+          borderColor: "#4B5563",
+          textStyle: { color: "#D1D5DB" },
+          className: "echarts-tooltip",
+        };
+
+        // =================================================================
+        // 页面初始化
+        // =================================================================
+        function initPage() {
+          const mainContent = document.getElementById("main-content");
+          const sectionTemplate = document.getElementById("section-template");
+          if (!mainContent || !sectionTemplate) {
+            console.error(
+              "Essential elements #main-content or #section-template not found!"
+            );
+            return;
+          }
+
+          sections.forEach((data) => {
+            const sectionClone = sectionTemplate.content.cloneNode(true);
+            const sectionEl = sectionClone.querySelector("section");
+            sectionEl.id = data.id;
+            sectionClone.querySelector("h2").innerHTML = data.title;
+            const subtitleEl = sectionClone.querySelector(".subtitle");
+            if (data.subtitle) {
+              subtitleEl.innerHTML = data.subtitle;
+            } else {
+              subtitleEl.remove();
+            }
+            sectionClone.querySelector(".content-wrapper").innerHTML =
+              contentTemplates[data.id];
+            mainContent.appendChild(sectionClone);
+            if (data.setup) {
+              try {
+                data.setup(sectionEl);
+              } catch (e) {
+                console.error(`Error setting up section "${data.id}":`, e);
+              }
+            }
+          });
+
+          setupScrollAnimations();
+          setupDanmaku();
+        }
+
+        function setupScrollAnimations() {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add("visible");
+                  observer.unobserve(entry.target);
+                }
+              });
+            },
+            { rootMargin: "0px 0px -10% 0px" }
+          );
+
+          document
+            .querySelectorAll(".reveal")
+            .forEach((el) => observer.observe(el));
+        }
+
+        function setupDanmaku() {
+          const container = document.getElementById("danmaku-container");
+          if (!container) return;
+          const danmakuItems = [
+            { text: "现在找工作都卷到新兴职业了？" },
+            { text: "无人机工程师听起来好酷！门槛高吗？" },
+            { text: "元宇宙策划师居然还有葬礼方向..." },
+            { text: "权益没保障，再新潮的职业也干不长" },
+            { text: "我的职业啥时候能“转正”啊" },
+            { text: "感觉自由比高薪更重要了" },
+          ];
+          danmakuItems.forEach((item, i) => {
+            const wrapper = document.createElement("div");
+            wrapper.className = "scroll-text";
+            wrapper.style.top = `${10 + (i % 5) * 18}%`;
+            wrapper.style.animationDuration = `${15 + Math.random() * 10}s`;
+            wrapper.style.animationDelay = `${Math.random() * 15}s`;
+            const el = document.createElement("div");
+            el.className = "danmaku";
+            el.innerHTML = `<span>${item.text}</span>`;
+            wrapper.appendChild(el);
+            container.appendChild(wrapper);
+          });
+        }
+
+        // =================================================================
+        // 各章节图表实现
+        // =================================================================
+        function setupStatusCharts(section) {
+          // 添加延迟确保DOM完全渲染
+          setTimeout(() => {
+            const lifecycleElement = section.querySelector(".lifecycle-chart");
+            if (!lifecycleElement) {
+              console.error("Lifecycle chart element not found");
+              return;
+            }
+            const lifecycleChart = echarts.init(lifecycleElement, "dark");
+            lifecycleChart.setOption({
+              tooltip: { ...echartsTooltipOption },
+              series: [
+                {
+                  type: "graph",
+                  layout: "none",
+                  symbolSize: 80,
+                  roam: false,
+                  label: { show: true, color: "#fff", fontSize: 14 },
+                  edgeSymbol: ["circle", "arrow"],
+                  edgeSymbolSize: [4, 10],
+                  edgeLabel: { show: true, fontSize: 12, formatter: "{c}" },
+                  data: [
+                    {
+                      name: "市场自发萌芽",
+                      x: 10,
+                      y: 50,
+                      itemStyle: { color: "#F97316" },
+                    },
+                    {
+                      name: "企业招聘验证",
+                      x: 40,
+                      y: 50,
+                      itemStyle: { color: "#3B82F6" },
+                    },
+                    {
+                      name: "官方纳入目录",
+                      x: 70,
+                      y: 50,
+                      itemStyle: { color: "#10B981" },
+                    },
+                  ],
+                  links: [
+                    {
+                      source: "市场自发萌芽",
+                      target: "企业招聘验证",
+                      value: "需求",
+                    },
+                    {
+                      source: "企业招聘验证",
+                      target: "官方纳入目录",
+                      value: "认证",
+                    },
+                  ],
+                  lineStyle: { opacity: 0.9, width: 2, curveness: 0 },
+                },
+              ],
+            });
+
+            const wordCloudElement = section.querySelector(".professions-word-cloud");
+            if (!wordCloudElement) {
+              console.error("Word cloud element not found");
+              return;
+            }
+            const wordCloudChart = echarts.init(wordCloudElement, "dark");
+            wordCloudChart.setOption({
+              tooltip: {
+                ...echartsTooltipOption,
+                formatter: (p) => `${p.name}: ${p.value}个岗位`,
+              },
+              series: [
+                {
+                  type: "wordCloud",
+                  shape: "circle",
+                  sizeRange: [15, 60],
+                  rotationRange: [-30, 30],
+                  textStyle: {
+                    fontFamily: "sans-serif",
+                    color: (params) =>
+                      params.data.certified ? "#EF4444" : "#6B7280",
+                  },
+                  emphasis: { textStyle: { fontWeight: "bold", color: "#fff" } },
+                  data: [
+                    { name: "民宿管家", value: 1500, certified: true },
+                    { name: "无人机驾驶员", value: 1200, certified: true },
+                    { name: "老年数字服务师", value: 900, certified: true },
+                    { name: "AI训练师", value: 1800, certified: true },
+                    { name: "元宇宙场景策划师", value: 2500, certified: false },
+                    { name: "宠物殡葬师", value: 800, certified: false },
+                    { name: "数据标注员", value: 2200, certified: false },
+                    { name: "游戏陪练师", value: 1600, certified: false },
+                  ],
+                },
+              ],
+            });
+
+            const domainBarElement = section.querySelector(".domain-barchart");
+            if (!domainBarElement) {
+              console.error("Domain bar chart element not found");
+              return;
+            }
+            const domainBarChart = echarts.init(domainBarElement, "dark");
+            domainBarChart.setOption({
+              tooltip: { ...echartsTooltipOption },
+              grid: { left: "3%", right: "4%", bottom: "3%", containLabel: true },
+              xAxis: { type: "value" },
+              yAxis: {
+                type: "category",
+                data: [
+                  "信息技术",
+                  "生活服务",
+                  "文化娱乐",
+                  "医疗健康",
+                  "教育培训",
+                ],
+              },
+              series: [
+                {
+                  name: "岗位数量",
+                  type: "bar",
+                  data: [18000, 15000, 12000, 9000, 7500],
+                  itemStyle: {
+                    color: new echarts.graphic.LinearGradient(1, 0, 0, 0, [
+                      { offset: 0, color: "#3B82F6" },
+                      { offset: 1, color: "#22D3EE" },
+                    ]),
+                  },
+                  label: { show: true, position: "right", color: "#fff" },
+                },
+              ],
+            });
+          }, 100);
+        }
+
+        function setupSankeyChart(section) {
+          setTimeout(() => {
+            const sankeyElement = section.querySelector(".sankey-chart");
+            if (!sankeyElement) {
+              console.error("Sankey chart element not found");
+              return;
+            }
+            const sankeyChart = echarts.init(sankeyElement, "dark");
+            sankeyChart.setOption({
+              tooltip: {
+                trigger: "item",
+                triggerOn: "mousemove",
+                ...echartsTooltipOption,
+              },
+              series: {
+                type: "sankey",
+                emphasis: { focus: "adjacency" },
+                nodeAlign: "left",
+                data: [
+                  { name: "技术突破", itemStyle: { color: "#3B82F6" } },
+                  { name: "市场需求", itemStyle: { color: "#F97316" } },
+                  { name: "政策引导", itemStyle: { color: "#10B981" } },
+                  { name: "AI训练师" },
+                  { name: "无人机驾驶员" },
+                  { name: "民宿管家" },
+                  { name: "老年数字服务师" },
+                  { name: "剧本杀DM" },
+                ],
+                links: [
+                  { source: "技术突破", target: "AI训练师", value: 10 },
+                  { source: "技术突破", target: "无人机驾驶员", value: 8 },
+                  { source: "市场需求", target: "民宿管家", value: 9 },
+                  { source: "市场需求", target: "剧本杀DM", value: 7 },
+                  { source: "政策引导", target: "老年数字服务师", value: 6 },
+                  { source: "市场需求", target: "老年数字服务师", value: 4 },
+                  { source: "技术突破", target: "民宿管家", value: 2 },
+                ],
+                lineStyle: { color: "source", curveness: 0.5 },
+              },
+            });
+          }, 200);
+        }
+
+        function setupRectificationCharts(section) {
+          setTimeout(() => {
+            const rectificationElement = section.querySelector(".rectification-word-clouds");
+            if (!rectificationElement) {
+              console.error("Rectification chart element not found");
+              return;
+            }
+            const rectificationChart = echarts.init(rectificationElement, "dark");
+            rectificationChart.setOption({
+              grid: [
+                { left: "5%", top: "5%", bottom: "5%", width: "40%" },
+                { right: "5%", top: "5%", bottom: "5%", width: "40%" },
+              ],
+              xAxis: [
+                { gridIndex: 0, show: false },
+                { gridIndex: 1, show: false },
+              ],
+              yAxis: [
+                { gridIndex: 0, show: false },
+                { gridIndex: 1, show: false },
+              ],
+              graphic: [
+                {
+                  type: "text",
+                  left: "25%",
+                  top: "10%",
+                  style: {
+                    text: "2022年 (民间)",
+                    fill: "#9CA3AF",
+                    font: "bold 16px sans-serif",
+                  },
+                },
+                {
+                  type: "text",
+                  right: "20%",
+                  top: "10%",
+                  style: {
+                    text: "2024年 (官方)",
+                    fill: "#9CA3AF",
+                    font: "bold 16px sans-serif",
+                  },
+                },
+                {
+                  type: "text",
+                  right: "18%",
+                  bottom: "10%",
+                  style: {
+                    text: "规范化率提升 ↗",
+                    fill: "#10B981",
+                    font: "bold 18px sans-serif",
+                  },
+                },
+              ],
+              series: [
+                {
+                  type: "wordCloud",
+                  xAxisIndex: 0,
+                  yAxisIndex: 0,
+                  sizeRange: [12, 35],
+                  rotationRange: [-45, 45],
+                  textStyle: { fontFamily: "KaiTi", color: "#6B7280" },
+                  data: [
+                    { name: "银发生活规划师", value: 10 },
+                    { name: "老年陪伴师", value: 8 },
+                    { name: "老年数字辅导员", value: 12 },
+                    { name: "助老员", value: 6 },
+                  ],
+                },
+                {
+                  type: "wordCloud",
+                  xAxisIndex: 1,
+                  yAxisIndex: 1,
+                  sizeRange: [20, 50],
+                  rotationRange: [0, 0],
+                  textStyle: { fontFamily: "Microsoft YaHei", color: "#EF4444" },
+                  data: [{ name: "老年数字服务师", value: 20 }],
+                },
+              ],
+            });
+          }, 300);
+        }
+
+        function setupRightsChart(section) {
+          setTimeout(() => {
+            const rightsElement = section.querySelector(".rights-barchart");
+            if (!rightsElement) {
+              console.error("Rights chart element not found");
+              return;
+            }
+            const rightsChart = echarts.init(rightsElement, "dark");
+            rightsChart.setOption({
+              tooltip: {
+                trigger: "axis",
+                axisPointer: { type: "shadow" },
+                ...echartsTooltipOption,
+              },
+              legend: {
+                data: ["认证职业", "未认证职业"],
+                textStyle: { color: "#fff" },
+              },
+              grid: { left: "3%", right: "4%", bottom: "3%", containLabel: true },
+              xAxis: {
+                type: "category",
+                data: ["工伤保险覆盖率", "职业培训覆盖率", "职称评定覆盖率"],
+              },
+              yAxis: { type: "value", axisLabel: { formatter: "{value} %" } },
+              series: [
+                {
+                  name: "认证职业",
+                  type: "bar",
+                  itemStyle: { color: "#3B82F6" },
+                  data: [85, 78, 65],
+                },
+                {
+                  name: "未认证职业",
+                  type: "bar",
+                  itemStyle: { color: "#6B7280" },
+                  data: [32, 25, 5],
+                },
+              ],
+            });
+          }, 400);
+        }
+
+        function setupReconstructionChart(section) {
+          setTimeout(() => {
+            const pieElement = section.querySelector(".factors-piechart");
+            if (!pieElement) {
+              console.error("Pie chart element not found");
+              return;
+            }
+            const pieChart = echarts.init(pieElement, "dark");
+            const stages = {
+              2020: [
+                { value: 65, name: "薪资待遇" },
+                { value: 25, name: "情感认同" },
+                { value: 10, name: "工作自由" },
+              ],
+              2025: [
+                { value: 40, name: "薪资待遇" },
+                { value: 30, name: "情感认同" },
+                { value: 30, name: "工作自由" },
+              ],
+            };
+            pieChart.setOption({
+              title: {
+                text: "职业选择核心因素演变",
+                left: "center",
+                textStyle: { color: "#fff" },
+              },
+              tooltip: {
+                trigger: "item",
+                formatter: "{a} <br/>{b}: {c}%",
+                ...echartsTooltipOption,
+              },
+              legend: {
+                orient: "vertical",
+                left: 10,
+                data: ["薪资待遇", "情感认同", "工作自由"],
+                textStyle: { color: "#fff" },
+              },
+              series: [
+                {
+                  name: "2025年",
+                  type: "pie",
+                  radius: ["40%", "70%"],
+                  avoidLabelOverlap: false,
+                  label: { show: false, position: "center" },
+                  emphasis: {
+                    label: { show: true, fontSize: 20, fontWeight: "bold" },
+                  },
+                  labelLine: { show: false },
+                  data: stages["2025"],
+                },
+              ],
+            });
+            pieElement.addEventListener("click", () => {
+              const currentYear = pieChart
+                .getOption()
+                .series[0].name.includes("2025")
+                ? "2020"
+                : "2025";
+              pieChart.setOption({
+                series: [
+                  { name: `${currentYear}年`, data: stages[currentYear] },
+                ],
+              });
+            });
+          }, 500);
+        }
+
+        function setupConclusionChart(section) {
+          setTimeout(() => {
+            const mapElement = section.querySelector(".future-map");
+            if (!mapElement) {
+              console.error("Map chart element not found");
+              return;
+            }
+            const mapChart = echarts.init(mapElement, "dark");
+            const professions = [
+              { name: "AI训练师", value: 1, category: 0 },
+              { name: "无人机驾驶员", value: 1, category: 0 },
+              { name: "元宇宙策划师", value: 1, category: 1 },
+              { name: "游戏陪练师", value: 1, category: 1 },
+              { name: "汉服造型师", value: 1, category: 1 },
+              { name: "整理收纳师", value: 1, category: 1 },
+            ];
+            mapChart.setOption({
+              title: {
+                text: "中国新职业图谱",
+                left: "center",
+                textStyle: { color: "#fff" },
+              },
+              tooltip: {},
+              legend: [
+                {
+                  data: ["已认证", "未认证"],
+                  top: "bottom",
+                  textStyle: { color: "#fff" },
+                },
+              ],
+              animationDurationUpdate: 1500,
+              animationEasingUpdate: "quinticInOut",
+              series: [
+                {
+                  type: "graph",
+                  layout: "force",
+                  force: { repulsion: 80 },
+                  data: professions,
+                  categories: [
+                    { name: "已认证", itemStyle: { color: "#EF4444" } },
+                    { name: "未认证", itemStyle: { color: "#6B7280" } },
+                  ],
+                  roam: true,
+                  label: { show: true, formatter: "{b}" },
+                  lineStyle: { color: "source", curveness: 0.3 },
+                },
+              ],
+            });
+          }, 600);
+        }
+
+        // --- 启动页面 ---
+        initPage();
+        
+        // 添加窗口尺寸变化时的响应式处理
+        window.addEventListener('resize', () => {
+          // 收集所有已初始化的图表实例并重新渲染
+          const charts = document.querySelectorAll('[_echarts_instance_]');
+          charts.forEach(element => {
+            const chart = echarts.getInstanceByDom(element);
+            if (chart) {
+              chart.resize();
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

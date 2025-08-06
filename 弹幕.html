@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>新兴职业：个体与时代的“动态应答”</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <!-- 配置Tailwind自定义颜色 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3B82F6',
+            secondary: '#8B5CF6',
+            accent: '#EC4899',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .glow {
+        filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));
+      }
+      .float {
+        animation: float 6s ease-in-out infinite;
+      }
+      .float-delay-1 {
+        animation: float 6s ease-in-out 1s infinite;
+      }
+      .float-delay-2 {
+        animation: float 6s ease-in-out 2s infinite;
+      }
+      .float-delay-3 {
+        animation: float 6s ease-in-out 3s infinite;
+      }
+      .float-delay-4 {
+        animation: float 6s ease-in-out 4s infinite;
+      }
+      @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+        100% { transform: translateX(0px); }
+      }
+      .scroll-text {
+        animation: scroll 15s linear infinite;
+      }
+      .scroll-text-delay-1 {
+        animation: scroll 16s linear 2s infinite;
+      }
+      .scroll-text-delay-2 {
+        animation: scroll 14s linear 4s infinite;
+      }
+      .scroll-text-delay-3 {
+        animation: scroll 17s linear 6s infinite;
+      }
+      .scroll-text-delay-4 {
+        animation: scroll 15s linear 8s infinite;
+      }
+      @keyframes scroll {
+        0% { transform: translateX(100vw); }
+        100% { transform: translateX(-100%); }
+      }
+      .danmaku {
+        transition: transform 0.2s ease, z-index 0.2s ease, box-shadow 0.2s ease;
+        cursor: pointer;
+      }
+      .danmaku:hover {
+        transform: scale(1.2);
+        z-index: 20 !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen overflow-hidden bg-gray-900">
+  <!-- 渐变色城市背景 -->
+  <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 z-0">
+    <!-- 城市剪影 -->
+    <div class="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-gray-800 to-transparent opacity-70">
+      <svg class="absolute bottom-0 w-full h-full" viewBox="0 0 1440 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,213.3C672,224,768,224,864,202.7C960,181,1056,139,1152,138.7C1248,139,1344,181,1392,202.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z" fill="url(#cityGradient)"></path>
+        <defs>
+          <linearGradient id="cityGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.8"></stop>
+            <stop offset="100%" stop-color="#1E293B" stop-opacity="0.9"></stop>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+  </div>
+
+  <!-- 悬浮职业图标 -->
+  <div class="absolute inset-0 z-10">
+    <!-- 无人机图标 -->
+    <div class="absolute top-[20%] left-[25%] w-16 h-16 text-primary glow float">
+      <i class="fa fa-plane text-5xl"></i>
+      <div class="mt-2 text-white text-sm text-center">无人机工程师</div>
+    </div>
+    
+    <!-- 虚拟数字人图标 -->
+    <div class="absolute top-[30%] right-[25%] w-16 h-16 text-secondary glow float-delay-1">
+      <i class="fa fa-user-circle text-5xl"></i>
+      <div class="mt-2 text-white text-sm text-center">虚拟数字人</div>
+    </div>
+    
+    <!-- 民宿管家图标 -->
+    <div class="absolute bottom-[35%] left-[35%] w-16 h-16 text-accent glow float-delay-2">
+      <i class="fa fa-home text-5xl"></i>
+      <div class="mt-2 text-white text-sm text-center">民宿管家</div>
+    </div>
+    
+    <!-- 银发经济图标 -->
+    <div class="absolute bottom-[40%] right-[30%] w-16 h-16 text-green-400 glow float-delay-3">
+      <i class="fa fa-heartbeat text-5xl"></i>
+      <div class="mt-2 text-white text-sm text-center">银发经济顾问</div>
+    </div>
+    
+    <!-- 自由职业图标 -->
+    <div class="absolute top-[45%] left-[45%] w-16 h-16 text-yellow-400 glow float-delay-4">
+      <i class="fa fa-briefcase text-5xl"></i>
+      <div class="mt-2 text-white text-sm text-center">自由职业者</div>
+    </div>
+  </div>
+
+  <!-- 标题 -->
+  <div class="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 text-center">
+    <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-white leading-tight text-shadow">
+      新兴职业：<br class="md:hidden">个体与时代的“动态应答”
+    </h1>
+  </div>
+
+  <!-- 动态弹幕 - 连续滚动无停顿 -->
+  <div class="absolute inset-0 overflow-hidden z-10">
+    <!-- 弹幕1 -->
+    <div class="absolute top-[15%] whitespace-nowrap scroll-text">
+      <div class="danmaku bg-gray-800/70 text-white px-4 py-2 rounded-full inline-flex items-center gap-2">
+        <span>现在找工作都卷到新兴职业了？</span>
+        <span class="flex items-center"><i class="fa fa-thumbs-up mr-1"></i> 245</span>
+      </div>
+    </div>
+    
+    <!-- 弹幕2 -->
+    <div class="absolute top-[30%] whitespace-nowrap scroll-text-delay-1">
+      <div class="danmaku bg-gray-800/70 text-white px-4 py-2 rounded-full inline-flex items-center gap-2">
+        <span>无人机工程师听起来好酷！门槛高吗？</span>
+        <span class="flex items-center"><i class="fa fa-thumbs-up mr-1"></i> 189</span>
+      </div>
+    </div>
+    
+    <!-- 弹幕3 -->
+    <div class="absolute top-[50%] whitespace-nowrap scroll-text-delay-2">
+      <div class="danmaku bg-gray-800/70 text-white px-4 py-2 rounded-full inline-flex items-center gap-2">
+        <span>我在做银发经济相关，啥时候能被官方认证啊？</span>
+        <span class="flex items-center"><i class="fa fa-thumbs-up mr-1"></i> 312</span>
+      </div>
+    </div>
+    
+    <!-- 弹幕4 -->
+    <div class="absolute top-[70%] whitespace-nowrap scroll-text-delay-3">
+      <div class="danmaku bg-gray-800/70 text-white px-4 py-2 rounded-full inline-flex items-center gap-2">
+        <span>自由职业虽好，社保没保障是硬伤……</span>
+        <span class="flex items-center"><i class="fa fa-thumbs-up mr-1"></i> 456</span>
+      </div>
+    </div>
+
+    <!-- 更多弹幕增强连续感 -->
+    <div class="absolute top-[22%] whitespace-nowrap scroll-text-delay-4">
+      <div class="danmaku bg-gray-800/70 text-white px-4 py-2 rounded-full inline-flex items-center gap-2">
+        <span>虚拟数字人领域发展前景怎么样？</span>
+        <span class="flex items-center"><i class="fa fa-thumbs-up mr-1"></i> 156</span>
+      </div>
+    </div>
+
+    <div class="absolute top-[42%] whitespace-nowrap scroll-text-delay-1">
+      <div class="danmaku bg-gray-800/70 text-white px-4 py-2 rounded-full inline-flex items-center gap-2">
+        <span>想转行做民宿管家，需要哪些技能？</span>
+        <span class="flex items-center"><i class="fa fa-thumbs-up mr-1"></i> 203</span>
+      </div>
+    </div>
+
+    <div class="absolute top-[62%] whitespace-nowrap scroll-text-delay-3">
+      <div class="danmaku bg-gray-800/70 text-white px-4 py-2 rounded-full inline-flex items-center gap-2">
+        <span>这些新兴职业的收入水平如何？</span>
+        <span class="flex items-center"><i class="fa fa-thumbs-up mr-1"></i> 278</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 获取所有弹幕容器
+      const 弹幕容器 = document.querySelectorAll('[class*="scroll-text"]');
+      
+      // 为每个弹幕容器设置动画属性并存储
+      弹幕容器.forEach(容器 => {
+        // 获取计算样式中的动画属性
+        const 计算样式 = getComputedStyle(容器);
+        容器.dataset.animation = 计算样式.animation;
+      });
+      
+      // 处理弹幕循环，实现无缝连续滚动
+      弹幕容器.forEach(容器 => {
+        容器.addEventListener('animationiteration', () => {
+          // 关键改进：移除重置延迟，实现无停顿连续滚动
+          const 原始动画 = 容器.dataset.animation;
+          容器.style.animation = 'none';
+          // 使用requestAnimationFrame确保浏览器渲染同步
+          requestAnimationFrame(() => {
+            容器.style.animation = 原始动画;
+          });
+        });
+      });
+      
+      // 弹幕交互 - 鼠标悬停暂停，离开继续
+      const 所有弹幕 = document.querySelectorAll('.danmaku');
+      所有弹幕.forEach(弹幕 => {
+        const 动画容器 = 弹幕.parentElement;
+        
+        弹幕.addEventListener('mouseenter', () => {
+          动画容器.style.animationPlayState = 'paused';
+        });
+        
+        弹幕.addEventListener('mouseleave', () => {
+          动画容器.style.animationPlayState = 'running';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
