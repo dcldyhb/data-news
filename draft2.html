@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>数据镜头下的新职业生存实录 (动态版)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* 基础字体和背景设定 */
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei",
+          sans-serif;
+        background-color: #111827;
+        color: #d1d5db;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+      }
+
+      /* 准备用于JavaScript触发的动画类 */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .reveal-title {
+        opacity: 0;
+        transform: scale(0.8);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      }
+      .reveal-title.visible {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      /* 为卡片添加辉光效果 */
+      .glow-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 1.5rem;
+        border: 1px solid transparent;
+        background: linear-gradient(
+            120deg,
+            rgba(255, 255, 255, 0.3),
+            rgba(255, 255, 255, 0.05)
+          )
+          border-box;
+        -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+          linear-gradient(#fff 0 0);
+        -webkit-mask-composite: destination-out;
+        mask-composite: exclude;
+        z-index: -1;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-gray-300">
+    <header
+      class="min-h-screen flex flex-col items-center justify-center text-center p-8 relative overflow-hidden"
+    >
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-indigo-900/50 via-gray-900 to-gray-900 z-0"
+      ></div>
+      <div
+        class="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-cyan-400/20 rounded-full filter blur-3xl animate-pulse"
+      ></div>
+      <div
+        class="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-purple-600/20 rounded-full filter blur-3xl animate-pulse delay-1000"
+      ></div>
+
+      <div class="z-10">
+        <h1
+          class="text-4xl md:text-7xl font-bold text-white mb-6 tracking-tight leading-tight"
+        >
+          数据镜头下的<br class="md:hidden" />
+          <span
+            class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300"
+            >新职业</span
+          >
+          生存实录
+        </h1>
+        <div class="max-w-3xl mx-auto text-lg md:text-xl text-gray-400 italic">
+          <p>当传统职业的幕布缓缓降落，聚光灯下的舞台正等待新角色登场。</p>
+          <p>我们以数据为追光灯，追踪这场重塑个体命运的“职业戏剧”。</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-6 md:px-0">
+      <section class="py-20 reveal">
+        <h2
+          class="text-3xl md:text-5xl font-bold text-center text-white mb-12 reveal-title"
+        >
+          01. 行业<span
+            class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500"
+            >现状</span
+          >
+        </h2>
+        <div class="grid md:grid-cols-2 gap-8 items-center">
+          <div class="space-y-4 text-lg">
+            <p>
+              自2019年建立新职业信息发布制度以来，人社部已累计发布了新职业。
+            </p>
+            <p
+              class="text-7xl md:text-9xl font-black text-center text-amber-400 my-8"
+            >
+              110<span class="text-5xl ml-2">个</span>
+            </p>
+            <p>
+              然而，这远不足以涵盖市场的全貌。大量民间岗位如“元宇宙场景策划师”等，虽需求旺盛，却仍在等待官方的“姓名”。
+            </p>
+          </div>
+          <div
+            class="relative p-8 bg-white/5 backdrop-blur-lg rounded-2xl glow-card"
+          >
+            <h3 class="font-bold text-2xl text-white mb-4">职业词云</h3>
+            <p class="mb-4">
+              从“无人机飞行师”到“民宿管家”，新兴职业正以前所未有的速度渗透进生活的方方面面。
+            </p>
+            <img
+              src="https://raw.githubusercontent.com/username/repo/main/figures/wordcloud.png"
+              alt="新职业词云"
+              class="rounded-lg opacity-90"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="py-20 reveal">
+        <h2
+          class="text-3xl md:text-5xl font-bold text-center text-white mb-12 reveal-title"
+        >
+          02. 驱动<span
+            class="text-transparent bg-clip-text bg-gradient-to-r from-lime-400 to-green-500"
+            >密码</span
+          >
+        </h2>
+        <div class="text-center max-w-4xl mx-auto">
+          <p class="text-xl mb-8">
+            新兴职业的爆发并非偶然，而是<strong class="text-lime-400"
+              >技术突破</strong
+            >、<strong class="text-lime-400">市场需求</strong>与<strong
+              class="text-lime-400"
+              >政策引导</strong
+            >共同作用的结果。
+          </p>
+          <div
+            class="relative p-8 bg-white/5 backdrop-blur-lg rounded-2xl glow-card"
+          >
+            <h3 class="font-bold text-2xl text-white mb-4">三大核心驱动力</h3>
+            <img
+              src="https://raw.githubusercontent.com/username/repo/main/figures/sankidiagram.png"
+              alt="驱动因素桑基图"
+              class="rounded-lg opacity-90"
+            />
+            <p class="mt-4 italic text-gray-400">
+              技术、政策、需求的三束追光，共同书写了职业剧本的潜台词。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-20 reveal">
+        <h2
+          class="text-3xl md:text-5xl font-bold text-center text-white mb-12 reveal-title"
+        >
+          03. 繁荣背后的<span
+            class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-rose-500"
+            >困境</span
+          >
+        </h2>
+        <div class="grid md:grid-cols-2 gap-8 items-center">
+          <div
+            id="interactive-chart-container"
+            class="relative p-8 bg-white/5 backdrop-blur-lg rounded-2xl glow-card"
+          >
+            <h3 class="font-bold text-2xl text-white mb-2">权益保障对比</h3>
+            <p class="mb-4 text-gray-400">点击按钮查看不同维度的对比数据</p>
+            <div
+              class="relative h-64 bg-gray-800/50 rounded-lg p-4 transition-all duration-500"
+            >
+              <div
+                id="chart-title"
+                class="text-center font-bold text-xl text-white mb-2"
+              >
+                规范劳动合同签订率
+              </div>
+              <div class="flex items-end justify-around h-full">
+                <div class="bar-group text-center">
+                  <div
+                    id="bar1"
+                    class="w-12 md:w-16 bg-gradient-to-t from-sky-600 to-sky-400 rounded-t-lg mx-auto transition-all duration-500"
+                    style="height: 85%"
+                  ></div>
+                  <p class="text-sm mt-2">已认证</p>
+                </div>
+                <div class="bar-group text-center">
+                  <div
+                    id="bar2"
+                    class="w-12 md:w-16 bg-gradient-to-t from-red-600 to-red-400 rounded-t-lg mx-auto transition-all duration-500"
+                    style="height: 32%"
+                  ></div>
+                  <p class="text-sm mt-2">未认证</p>
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-center gap-4 mt-6">
+              <button
+                class="chart-btn bg-sky-500/80 hover:bg-sky-500 px-4 py-2 rounded-lg text-white transition"
+                data-type="contract"
+              >
+                劳动合同
+              </button>
+              <button
+                class="chart-btn bg-gray-600 hover:bg-gray-500 px-4 py-2 rounded-lg text-white transition"
+                data-type="vacation"
+              >
+                带薪休假
+              </button>
+            </div>
+          </div>
+          <div class="space-y-4 text-lg">
+            <p>繁荣背后，新兴职业的权益保障仍存短板。</p>
+            <p>
+              身份的模糊带来了现实的保障缺失。数据显示，未认证职业从业者中，<strong
+                class="text-red-500"
+                >68%</strong
+              >未签订规范劳动合同，<strong class="text-red-500">45%</strong
+              >无法享受带薪休假。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-20 reveal">
+        <h2
+          class="text-3xl md:text-5xl font-bold text-center text-white mb-12 reveal-title"
+        >
+          04. 价值<span
+            class="text-transparent bg-clip-text bg-gradient-to-r from-violet-500 to-fuchsia-500"
+            >重构</span
+          >
+        </h2>
+        <div class="text-center max-w-4xl mx-auto">
+          <p class="text-xl mb-8">
+            当代年轻人渴望摆脱传统职场的束缚，追求更加灵活、自主、能实现个人价值的工作方式。新兴职业的生长史，本质上是个体价值与时代需求的“动态应答”。
+          </p>
+          <div
+            class="relative p-8 bg-white/5 backdrop-blur-lg rounded-2xl glow-card"
+          >
+            <img
+              src="https://raw.githubusercontent.com/username/repo/main/figures/setorgraphevolution.png"
+              alt="行业演变图"
+              class="rounded-lg opacity-90"
+            />
+            <p class="mt-4 italic text-gray-400">
+              那些尚未被命名的职业，或许正藏着未来社会的模样。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-20 reveal">
+        <div
+          id="quiz-container"
+          class="max-w-2xl mx-auto p-8 md:p-12 bg-gray-800 border border-cyan-400/30 rounded-3xl shadow-2xl shadow-cyan-500/10"
+        >
+          <form id="quiz-form" action="#" method="get">
+            <fieldset>
+              <legend
+                class="text-3xl md:text-4xl font-bold text-center text-white mb-8 reveal-title"
+              >
+                测测你适合哪种<span
+                  class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300"
+                  >新职业</span
+                >？
+              </legend>
+              <div class="space-y-6">
+                <div class="question">
+                  <label
+                    for="work-preference"
+                    class="block mb-2 font-semibold text-gray-300"
+                    >偏好与人交往，还是与数据/代码为伴？</label
+                  >
+                  <select
+                    id="work-preference"
+                    name="work_preference"
+                    class="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:outline-none"
+                  >
+                    <option value="people">与人打交道</option>
+                    <option value="data">与数据/代码打交道</option>
+                    <option value="both">两者皆可</option>
+                  </select>
+                </div>
+                <div class="question">
+                  <label
+                    for="tech-interest"
+                    class="block mb-2 font-semibold text-gray-300"
+                    >对新兴科技（如AI、元宇宙）的兴趣程度？</label
+                  >
+                  <select
+                    id="tech-interest"
+                    name="tech_interest"
+                    class="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:outline-none"
+                  >
+                    <option value="high">非常高，总在关注前沿</option>
+                    <option value="medium">比较感兴趣</option>
+                    <option value="low">不太感冒</option>
+                  </select>
+                </div>
+                <div class="question">
+                  <label
+                    for="problem-solving"
+                    class="block mb-2 font-semibold text-gray-300"
+                    >享受解决复杂且没有固定答案的问题吗？</label
+                  >
+                  <select
+                    id="problem-solving"
+                    name="problem_solving"
+                    class="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:outline-none"
+                  >
+                    <option value="yes">是的，这让我充满激情</option>
+                    <option value="no">不是，我更喜欢有明确指引的任务</option>
+                  </select>
+                </div>
+                <button
+                  type="submit"
+                  class="w-full mt-8 py-4 px-6 bg-gradient-to-r from-sky-500 to-cyan-400 text-white font-bold text-lg rounded-lg hover:opacity-90 transition-opacity duration-300"
+                >
+                  查看我的新职业画像
+                </button>
+              </div>
+            </fieldset>
+          </form>
+          <div
+            id="quiz-result"
+            class="hidden mt-8 p-6 bg-gray-700/50 border border-gray-600 rounded-xl text-center"
+          ></div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // --- 动态功能1: 滚动动画 ---
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                // Optional: unobserve after animation to save resources
+                // observer.unobserve(entry.target);
+              }
+            });
+          },
+          {
+            threshold: 0.1, // Trigger when 10% of the element is visible
+          }
+        );
+
+        const revealElements = document.querySelectorAll(
+          ".reveal, .reveal-title"
+        );
+        revealElements.forEach((el) => observer.observe(el));
+
+        // --- 动态功能2: 交互式图表 ---
+        const chartButtons = document.querySelectorAll(".chart-btn");
+        const chartTitle = document.getElementById("chart-title");
+        const bar1 = document.getElementById("bar1");
+        const bar2 = document.getElementById("bar2");
+
+        const chartData = {
+          contract: {
+            title: "规范劳动合同签订率",
+            values: ["85%", "32%"],
+          },
+          vacation: {
+            title: "带薪休假享受率",
+            values: ["90%", "55%"],
+          },
+        };
+
+        chartButtons.forEach((button) => {
+          button.addEventListener("click", (e) => {
+            const type = e.target.dataset.type;
+            const data = chartData[type];
+
+            // 更新标题和柱状图高度
+            chartTitle.textContent = data.title;
+            bar1.style.height = data.values[0];
+            bar2.style.height = data.values[1];
+
+            // 更新按钮样式
+            chartButtons.forEach((btn) => {
+              btn.classList.remove("bg-sky-500/80", "hover:bg-sky-500");
+              btn.classList.add("bg-gray-600", "hover:bg-gray-500");
+            });
+            e.target.classList.remove("bg-gray-600", "hover:bg-gray-500");
+            e.target.classList.add("bg-sky-500/80", "hover:bg-sky-500");
+          });
+        });
+
+        // --- 动态功能3: 职业测试 ---
+        const quizForm = document.getElementById("quiz-form");
+        const quizResultContainer = document.getElementById("quiz-result");
+
+        quizForm.addEventListener("submit", (e) => {
+          e.preventDefault(); // 阻止表单默认的提交行为
+
+          const workPref = document.getElementById("work-preference").value;
+          const techInterest = document.getElementById("tech-interest").value;
+          const problemSolving =
+            document.getElementById("problem-solving").value;
+
+          let result = {};
+
+          // 简单的匹配逻辑
+          if (
+            techInterest === "high" &&
+            workPref === "data" &&
+            problemSolving === "yes"
+          ) {
+            result = {
+              title: "AI 训练师 / 算法工程师",
+              desc: "你对前沿科技充满热情，享受与数据和逻辑打交道，并乐于挑战未知。在AI时代，你是不可或缺的“驯兽师”，赋予机器智能。",
+            };
+          } else if (workPref === "people" && techInterest !== "low") {
+            result = {
+              title: "民宿管家 / 银发生活规划师",
+              desc: "你善于沟通，乐于助人，并能将科技与人文关怀结合。你适合在新兴的服务业中，为人们创造更美好的生活体验。",
+            };
+          } else if (workPref === "both" && problemSolving === "yes") {
+            result = {
+              title: "元宇宙场景策划师",
+              desc: "你既有天马行空的创意，又有将想法付诸实践的逻辑能力。你适合在虚拟与现实的交界处，构建未来的数字世界。",
+            };
+          } else {
+            result = {
+              title: "全能型探索者",
+              desc: "你的特质多元，不拘一格。新兴职业的世界为你敞开大门，去探索那些尚未被定义的领域，创造属于你自己的职业吧！",
+            };
+          }
+
+          // 动态生成结果并显示
+          quizResultContainer.innerHTML = `
+                    <h3 class="text-2xl font-bold text-cyan-400 mb-2">${result.title}</h3>
+                    <p class="text-gray-300">${result.desc}</p>
+                `;
+          quizResultContainer.classList.remove("hidden");
+
+          // 滚动到结果区域
+          quizResultContainer.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
