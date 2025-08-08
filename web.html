@@ -119,10 +119,13 @@
         gap: 4px;
       }
       .scroll-text {
-        animation: scroll linear infinite;
+        animation: scroll 25s linear infinite;
         position: absolute;
         will-change: transform;
         left: 100vw; /* 确保弹幕在动画开始前位于屏幕右侧外 */
+      }
+      .scroll-text:hover {
+        animation-play-state: paused;
       }
       @keyframes scroll {
         from {
@@ -373,8 +376,8 @@
             wrapper.className = "scroll-text";
             // 改进弹幕垂直分布，确保更均匀覆盖屏幕
             wrapper.style.top = `${5 + (i % 8) * 11}%`;
-            // 调整动画持续时间和延迟，让弹幕更连续
-            wrapper.style.animationDuration = `${12 + Math.random() * 8}s`;
+            // 调整动画持续时间和延迟，让弹幕更连续，但速度更慢
+            wrapper.style.animationDuration = `${20 + Math.random() * 10}s`;
             wrapper.style.animationDelay = `${i * 2 + Math.random() * 3}s`;
             const el = document.createElement("div");
             el.className = "danmaku";
@@ -385,6 +388,16 @@
                 <span>${item.likes}</span>
               </span>
             `;
+            
+            // 添加鼠标悬停暂停功能
+            el.addEventListener('mouseenter', () => {
+              wrapper.style.animationPlayState = 'paused';
+            });
+            
+            el.addEventListener('mouseleave', () => {
+              wrapper.style.animationPlayState = 'running';
+            });
+            
             wrapper.appendChild(el);
             container.appendChild(wrapper);
           });
@@ -580,8 +593,8 @@
             wrapper.className = "scroll-text";
             // 改进弹幕垂直分布，确保更均匀覆盖屏幕
             wrapper.style.top = `${5 + (i % 8) * 11}%`;
-            // 调整动画持续时间和延迟，让弹幕更连续
-            wrapper.style.animationDuration = `${12 + Math.random() * 8}s`;
+            // 调整动画持续时间和延迟，让弹幕更连续，但速度更慢
+            wrapper.style.animationDuration = `${20 + Math.random() * 10}s`;
             wrapper.style.animationDelay = `${i * 2 + Math.random() * 3}s`;
             const el = document.createElement("div");
             el.className = "danmaku";
@@ -592,6 +605,16 @@
                 <span>${item.likes}</span>
               </span>
             `;
+            
+            // 添加鼠标悬停暂停功能
+            el.addEventListener('mouseenter', () => {
+              wrapper.style.animationPlayState = 'paused';
+            });
+            
+            el.addEventListener('mouseleave', () => {
+              wrapper.style.animationPlayState = 'running';
+            });
+            
             wrapper.appendChild(el);
             container.appendChild(wrapper);
           });
