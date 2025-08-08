@@ -146,23 +146,35 @@
     </style>
   </head>
   <body class="bg-gray-900 text-gray-300">
-    <header class="min-h-screen flex items-center justify-center text-center p-8 relative overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-br from-blue-900/50 via-gray-900 to-gray-900 z-0"></div>
-      <div class="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-blue-500/20 rounded-full filter blur-3xl animate-pulse"></div>
-      <div class="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-orange-500/20 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
+    <header
+      class="min-h-screen flex flex-col items-center justify-center text-center p-8 relative overflow-hidden"
+    >
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-blue-900/50 via-gray-900 to-gray-900 z-0"
+      ></div>
+      <div
+        class="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-blue-500/20 rounded-full filter blur-3xl animate-pulse"
+      ></div>
+      <div
+        class="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-orange-500/20 rounded-full filter blur-3xl animate-pulse delay-1000"
+      ></div>
 
-      <div class="relative z-20">
-        <h1 class="text-4xl md:text-7xl font-bold text-white mb-6 tracking-tight leading-tight">
-          数据镜头下的<br class="md:hidden" /><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">新职业</span> 生存实录
+      <div class="relative z-20 w-full max-w-7xl">
+        <h1
+          class="text-4xl md:text-7xl font-bold text-white mb-6 tracking-tight leading-tight"
+        >
+          数据镜头下的<br class="md:hidden" /><span
+            class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500"
+            >新职业</span
+          >
+          生存实录
         </h1>
-        <div class="max-w-4xl mx-auto text-lg text-gray-400 space-y-4">
+        <div class="max-w-4xl mx-auto text-lg text-gray-400 space-y-4 mb-8">
           <p>
-            2025年5月，24岁的无人机飞行工程师陆子祥为"魅力重庆"无人机灯光秀提供飞行服务。2024年4月，浙江省首批"民宿管家"职业技能等级证书获得者孟金锦在莫干山民宿芝麻谷引导客人前往餐厅。
-          </p>
-          <p>
-            近年来，新兴职业逐渐兴起，就业结构不断发生改变。我们以权威数据为追光灯，深入分析新兴职业的发展现状、背后动因及面临的问题，展现这场关乎个体命运的职业变革。
+            自2019年建立新职业信息发布制度以来，人社部已累计发布了110个新职业。新兴职业逐渐兴起，就业结构不断发生改变。我们以权威数据为追光灯，深入分析新兴职业的发展现状、背后动因及面临的问题，展现这场关乎个体命运的职业变革。
           </p>
         </div>
+        <div id="header-chart" class="w-full h-80 glow-card p-4"></div>
       </div>
     </header>
 
@@ -185,13 +197,27 @@
     </template>
 
     <template id="intro-template">
-      <section class="min-h-[70vh] flex items-center justify-center text-center p-8 relative overflow-hidden reveal">
-        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/50 via-gray-900 to-gray-900 z-0"></div>
-        <div class="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-blue-500/20 rounded-full filter blur-3xl animate-pulse"></div>
-        <div class="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-orange-500/20 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
-        <div id="danmaku-container" class="absolute inset-0 z-10" aria-hidden="true"></div>
+      <section
+        class="min-h-[70vh] flex items-center justify-center text-center p-8 relative overflow-hidden reveal"
+      >
+        <div
+          class="absolute inset-0 bg-gradient-to-br from-blue-900/50 via-gray-900 to-gray-900 z-0"
+        ></div>
+        <div
+          class="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-blue-500/20 rounded-full filter blur-3xl animate-pulse"
+        ></div>
+        <div
+          class="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-orange-500/20 rounded-full filter blur-3xl animate-pulse delay-1000"
+        ></div>
+        <div
+          id="danmaku-container"
+          class="absolute inset-0 z-10"
+          aria-hidden="true"
+        ></div>
         <div class="relative z-20">
-          <h2 class="text-4xl md:text-7xl font-bold text-white mb-6 tracking-tight leading-tight"></h2>
+          <h2
+            class="text-4xl md:text-7xl font-bold text-white mb-6 tracking-tight leading-tight"
+          ></h2>
         </div>
       </section>
     </template>
@@ -210,7 +236,12 @@
           conclusion: `<div class="text-center max-w-4xl mx-auto space-y-4"><p>从电影《她》走出的人工智能数字人训练师，从《聊斋志异》走出的服务犬驯养师……新兴职业的生长史，本质上是个体价值与时代需求的"动态应答"。</p><p>从技术驱动到政策规范，从权益保障到价值重构，每一组数据的波动，都在书写着就业市场的新规则——而那些尚未被命名的职业，或许正藏着未来社会的模样。</p></div><div class="future-map w-full h-96 mt-12 glow-card p-4 relative"></div><div class="mt-8 text-center"><p class="text-lg mb-4">你认为下一个被认证的职业会是？</p><input type="text" placeholder="输入你的想法..." class="bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-primary"><button class="bg-primary text-white font-bold py-2 px-6 rounded-lg ml-2 transition-transform hover:scale-105">提交</button></div>`,
         };
         const sections = [
-          { id: "status-intro", title: "01. 行业现状", isIntro: true, setup: setupStatusIntro },
+          {
+            id: "status-intro",
+            title: "01. 行业现状",
+            isIntro: true,
+            setup: setupStatusIntro,
+          },
           { id: "status", title: "", setup: setupStatusCharts },
           {
             id: "drivers",
@@ -221,7 +252,7 @@
           },
           {
             id: "rectification",
-            title: "03. \"正名\"时间",
+            title: '03. "正名"时间',
             setup: setupRectificationCharts,
           },
           { id: "predicament", title: "04. 行业困境", setup: setupRightsChart },
@@ -243,13 +274,14 @@
         // 页面初始化
         // =================================================================
         function initPage() {
+          // 初始化标题页图表
+          initHeaderChart();
+
           const mainContent = document.getElementById("main-content");
           const sectionTemplate = document.getElementById("section-template");
           const introTemplate = document.getElementById("intro-template");
           if (!mainContent || !sectionTemplate || !introTemplate) {
-            console.error(
-              "Essential elements not found!"
-            );
+            console.error("Essential elements not found!");
             return;
           }
 
@@ -278,7 +310,7 @@
                   contentTemplates[data.id];
               }
             }
-            
+
             mainContent.appendChild(sectionClone);
             if (data.setup) {
               try {
@@ -315,14 +347,26 @@
           const container = document.getElementById("danmaku-container");
           if (!container) return;
           const danmakuItems = [
-            { text: "说的太好了，未来的职场，只有\"金手艺\"，没有\"铁饭碗\"！！！", likes: "170" },
-            { text: "数据分析师，学费基本2万以上，刚出来工资基本税前8000左右", likes: "2872" },
+            {
+              text: '说的太好了，未来的职场，只有"金手艺"，没有"铁饭碗"！！！',
+              likes: "170",
+            },
+            {
+              text: "数据分析师，学费基本2万以上，刚出来工资基本税前8000左右",
+              likes: "2872",
+            },
             { text: "新职业+新工种+老员工+老技术=办新证", likes: "2182" },
             { text: "取消劳务派遣", likes: "5231" },
-            { text: "养老服务师绝对吃香，现在的中国己经进入人口老龄化了", likes: "273" },
+            {
+              text: "养老服务师绝对吃香，现在的中国己经进入人口老龄化了",
+              likes: "273",
+            },
             { text: "这些行业该怎么入行呢", likes: "8769" },
             { text: "新兴职业的出现也给了年轻人更多的选择机会", likes: "1086" },
-            { text: "传统行业被男的占据太久了，新兴行业女性可以直接参与", likes: "4549" },
+            {
+              text: "传统行业被男的占据太久了，新兴行业女性可以直接参与",
+              likes: "4549",
+            },
           ];
           danmakuItems.forEach((item, i) => {
             const wrapper = document.createElement("div");
@@ -347,6 +391,162 @@
         }
 
         // =================================================================
+        // 标题页图表初始化
+        // =================================================================
+        function initHeaderChart() {
+          setTimeout(() => {
+            const chartElement = document.getElementById("header-chart");
+            if (!chartElement) {
+              console.error("Header chart element not found");
+              return;
+            }
+            const headerChart = echarts.init(chartElement, "dark");
+
+            // 数据准备
+            const years = [
+              "2019年",
+              "2020年",
+              "2021年",
+              "2022年",
+              "2024年",
+              "2025年",
+            ];
+            const jobCounts = [13, 16, 18, 18, 19, 17];
+            const growthRates = [0, 23.08, 12.5, 0, 5.56, -10.53];
+
+            headerChart.setOption({
+              title: {
+                text: "新兴职业发布趋势",
+                left: "center",
+                textStyle: {
+                  color: "#fff",
+                  fontSize: 20,
+                  fontWeight: "bold",
+                },
+              },
+              tooltip: {
+                trigger: "axis",
+                axisPointer: {
+                  type: "cross",
+                  crossStyle: {
+                    color: "#999",
+                  },
+                },
+                backgroundColor: "rgba(0,0,0,0.8)",
+                borderColor: "#4B5563",
+                borderWidth: 1,
+                textStyle: {
+                  color: "#fff",
+                },
+              },
+              legend: {
+                data: ["新增职业数量", "增长速度"],
+                top: "12%",
+                textStyle: {
+                  color: "#fff",
+                  fontSize: 12,
+                },
+              },
+              xAxis: [
+                {
+                  type: "category",
+                  data: years,
+                  axisPointer: {
+                    type: "shadow",
+                  },
+                  axisLabel: {
+                    color: "#9CA3AF",
+                    fontSize: 11,
+                  },
+                },
+              ],
+              yAxis: [
+                {
+                  type: "value",
+                  name: "职业数量",
+                  min: 0,
+                  max: 25,
+                  interval: 5,
+                  axisLabel: {
+                    formatter: "{value} 个",
+                    color: "#9CA3AF",
+                  },
+                  nameTextStyle: {
+                    color: "#9CA3AF",
+                  },
+                },
+                {
+                  type: "value",
+                  name: "增长速度",
+                  min: -20,
+                  max: 30,
+                  interval: 10,
+                  axisLabel: {
+                    formatter: "{value}%",
+                    color: "#9CA3AF",
+                  },
+                  nameTextStyle: {
+                    color: "#9CA3AF",
+                  },
+                },
+              ],
+              series: [
+                {
+                  name: "新增职业数量",
+                  type: "bar",
+                  data: jobCounts,
+                  itemStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                      { offset: 0, color: "#3B82F6" },
+                      { offset: 1, color: "#1E40AF" },
+                    ]),
+                  },
+                  label: {
+                    show: true,
+                    position: "top",
+                    color: "#fff",
+                    fontSize: 11,
+                  },
+                },
+                {
+                  name: "增长速度",
+                  type: "line",
+                  yAxisIndex: 1,
+                  data: growthRates,
+                  itemStyle: {
+                    color: "#F97316",
+                  },
+                  lineStyle: {
+                    color: "#F97316",
+                    width: 3,
+                  },
+                  symbol: "circle",
+                  symbolSize: 8,
+                  label: {
+                    show: true,
+                    position: "top",
+                    formatter: "{c}%",
+                    color: "#F97316",
+                    fontSize: 10,
+                  },
+                },
+              ],
+              grid: {
+                left: "10%",
+                right: "10%",
+                bottom: "15%",
+                top: "30%",
+              },
+            });
+
+            // 窗口大小改变时重新调整图表
+            window.addEventListener("resize", () => {
+              headerChart.resize();
+            });
+          }, 500);
+        }
+
+        // =================================================================
         // 各章节图表实现
         // =================================================================
         function setupStatusIntro(section) {
@@ -354,14 +554,26 @@
           const container = section.querySelector("#danmaku-container");
           if (!container) return;
           const danmakuItems = [
-            { text: "说的太好了，未来的职场，只有\"金手艺\"，没有\"铁饭碗\"！！！", likes: "170" },
-            { text: "数据分析师，学费基本2万以上，刚出来工资基本税前8000左右", likes: "2872" },
+            {
+              text: '说的太好了，未来的职场，只有"金手艺"，没有"铁饭碗"！！！',
+              likes: "170",
+            },
+            {
+              text: "数据分析师，学费基本2万以上，刚出来工资基本税前8000左右",
+              likes: "2872",
+            },
             { text: "新职业+新工种+老员工+老技术=办新证", likes: "2182" },
             { text: "取消劳务派遣", likes: "5231" },
-            { text: "养老服务师绝对吃香，现在的中国己经进入人口老龄化了", likes: "273" },
+            {
+              text: "养老服务师绝对吃香，现在的中国己经进入人口老龄化了",
+              likes: "273",
+            },
             { text: "这些行业该怎么入行呢", likes: "8769" },
             { text: "新兴职业的出现也给了年轻人更多的选择机会", likes: "1086" },
-            { text: "传统行业被男的占据太久了，新兴行业女性可以直接参与", likes: "4549" },
+            {
+              text: "传统行业被男的占据太久了，新兴行业女性可以直接参与",
+              likes: "4549",
+            },
           ];
           danmakuItems.forEach((item, i) => {
             const wrapper = document.createElement("div");
@@ -402,14 +614,14 @@
                   layout: "none",
                   symbolSize: [100, 60],
                   roam: false,
-                  label: { 
-                    show: true, 
-                    color: "#fff", 
+                  label: {
+                    show: true,
+                    color: "#fff",
                     fontSize: 11,
                     fontWeight: "bold",
-                    formatter: function(params) {
+                    formatter: function (params) {
                       return params.name;
-                    }
+                    },
                   },
                   tooltip: {
                     show: true,
@@ -418,24 +630,35 @@
                     borderWidth: 1,
                     textStyle: {
                       color: "#fff",
-                      fontSize: 12
+                      fontSize: 12,
                     },
-                    formatter: function(params) {
+                    formatter: function (params) {
                       const descriptions = {
-                        "预研阶段": "<b>预研阶段</b><br/>📋 前期研究准备<br/>• 技术可行性分析<br/>• 市场需求调研<br/>• 风险评估报告",
-                        "正式申报": "<b>正式申报</b><br/>📝 提交申报材料<br/>• 完整申报文件<br/>• 标准申报表格<br/>• 相关证明材料",
-                        "形式审查": "<b>形式审查</b><br/>🔍 材料完整性检查<br/>• 检查材料完整性<br/>• 验证格式规范性<br/>• 确认申报资质",
-                        "限期补正": "<b>限期补正</b><br/>⚠️ 材料补充完善<br/>• 补正材料不足<br/>• 按要求完善文件<br/>• 重新提交审查",
-                        "专家评审": "<b>专家评审</b><br/>👥 行业专家评议<br/>• 组织行业专家评议<br/>• 技术方案论证<br/>• 出具评审意见",
-                        "技术评审": "<b>技术评审</b><br/>🔬 技术深度评估<br/>• 技术指标验证<br/>• 安全性评估<br/>• 标准符合性检查",
-                        "终止流程": "<b>终止流程</b><br/>🛑 审批流程结束<br/>• 技术风险过高<br/>• 不符合国家政策<br/>• 存在安全隐患",
-                        "公示征求意见": "<b>公示征求意见</b><br/>📢 社会公众监督<br/>• 公开征求意见<br/>• 收集社会反馈<br/>• 处理意见建议",
-                        "部际联席会议": "<b>部际联席会议</b><br/>🏛️ 跨部门协调<br/>• 相关部委联合审议<br/>• 政策协调统一<br/>• 形成审议意见",
-                        "国务院审批": "<b>国务院审批</b><br/>🏆 最高级别审批<br/>• 最高级别审批<br/>• 政策合规性确认<br/>• 正式批准文件",
-                        "发布实施": "<b>发布实施</b><br/>✅ 正式生效执行<br/>• 正式对外发布<br/>• 制定实施细则<br/>• 开始执行监管"
+                        预研阶段:
+                          "<b>预研阶段</b><br/>📋 前期研究准备<br/>• 技术可行性分析<br/>• 市场需求调研<br/>• 风险评估报告",
+                        正式申报:
+                          "<b>正式申报</b><br/>📝 提交申报材料<br/>• 完整申报文件<br/>• 标准申报表格<br/>• 相关证明材料",
+                        形式审查:
+                          "<b>形式审查</b><br/>🔍 材料完整性检查<br/>• 检查材料完整性<br/>• 验证格式规范性<br/>• 确认申报资质",
+                        限期补正:
+                          "<b>限期补正</b><br/>⚠️ 材料补充完善<br/>• 补正材料不足<br/>• 按要求完善文件<br/>• 重新提交审查",
+                        专家评审:
+                          "<b>专家评审</b><br/>👥 行业专家评议<br/>• 组织行业专家评议<br/>• 技术方案论证<br/>• 出具评审意见",
+                        技术评审:
+                          "<b>技术评审</b><br/>🔬 技术深度评估<br/>• 技术指标验证<br/>• 安全性评估<br/>• 标准符合性检查",
+                        终止流程:
+                          "<b>终止流程</b><br/>🛑 审批流程结束<br/>• 技术风险过高<br/>• 不符合国家政策<br/>• 存在安全隐患",
+                        公示征求意见:
+                          "<b>公示征求意见</b><br/>📢 社会公众监督<br/>• 公开征求意见<br/>• 收集社会反馈<br/>• 处理意见建议",
+                        部际联席会议:
+                          "<b>部际联席会议</b><br/>🏛️ 跨部门协调<br/>• 相关部委联合审议<br/>• 政策协调统一<br/>• 形成审议意见",
+                        国务院审批:
+                          "<b>国务院审批</b><br/>🏆 最高级别审批<br/>• 最高级别审批<br/>• 政策合规性确认<br/>• 正式批准文件",
+                        发布实施:
+                          "<b>发布实施</b><br/>✅ 正式生效执行<br/>• 正式对外发布<br/>• 制定实施细则<br/>• 开始执行监管",
                       };
                       return descriptions[params.name] || params.name;
-                    }
+                    },
                   },
                   edgeSymbol: ["none", "arrow"],
                   edgeSymbolSize: [0, 8],
@@ -445,224 +668,224 @@
                       x: 10,
                       y: 50,
                       symbol: "rect",
-                      itemStyle: { 
+                      itemStyle: {
                         color: "#8B5CF6",
                         borderColor: "#6D28D9",
-                        borderWidth: 2
+                        borderWidth: 2,
                       },
-                      symbolSize: [60, 35]
+                      symbolSize: [60, 35],
                     },
                     {
                       name: "正式申报",
                       x: 30,
                       y: 50,
                       symbol: "rect",
-                      itemStyle: { 
+                      itemStyle: {
                         color: "#8B5CF6",
                         borderColor: "#6D28D9",
-                        borderWidth: 2
+                        borderWidth: 2,
                       },
-                      symbolSize: [60, 35]
+                      symbolSize: [60, 35],
                     },
                     {
                       name: "形式审查",
                       x: 50,
                       y: 50,
                       symbol: "diamond",
-                      itemStyle: { 
+                      itemStyle: {
                         color: "#F59E0B",
                         borderColor: "#D97706",
-                        borderWidth: 2
+                        borderWidth: 2,
                       },
-                      symbolSize: [60, 45]
+                      symbolSize: [60, 45],
                     },
                     {
                       name: "专家评审",
                       x: 70,
                       y: 50,
                       symbol: "rect",
-                      itemStyle: { 
+                      itemStyle: {
                         color: "#8B5CF6",
                         borderColor: "#6D28D9",
-                        borderWidth: 2
+                        borderWidth: 2,
                       },
-                      symbolSize: [60, 35]
+                      symbolSize: [60, 35],
                     },
                     {
                       name: "限期补正",
                       x: 50,
                       y: 20,
                       symbol: "rect",
-                      itemStyle: { 
+                      itemStyle: {
                         color: "#EF4444",
                         borderColor: "#DC2626",
-                        borderWidth: 2
+                        borderWidth: 2,
                       },
-                      symbolSize: [60, 35]
+                      symbolSize: [60, 35],
                     },
                     {
                       name: "技术评审",
                       x: 90,
                       y: 50,
                       symbol: "diamond",
-                      itemStyle: { 
+                      itemStyle: {
                         color: "#F59E0B",
                         borderColor: "#D97706",
-                        borderWidth: 2
+                        borderWidth: 2,
                       },
-                      symbolSize: [60, 45]
+                      symbolSize: [60, 45],
                     },
                     {
                       name: "公示征求意见",
                       x: 110,
                       y: 50,
                       symbol: "rect",
-                      itemStyle: { 
+                      itemStyle: {
                         color: "#8B5CF6",
                         borderColor: "#6D28D9",
-                        borderWidth: 2
+                        borderWidth: 2,
                       },
-                      symbolSize: [70, 35]
+                      symbolSize: [70, 35],
                     },
                     {
                       name: "终止流程",
                       x: 90,
                       y: 80,
                       symbol: "rect",
-                      itemStyle: { 
+                      itemStyle: {
                         color: "#EF4444",
                         borderColor: "#DC2626",
-                        borderWidth: 2
+                        borderWidth: 2,
                       },
-                      symbolSize: [60, 35]
+                      symbolSize: [60, 35],
                     },
                     {
                       name: "部际联席会议",
                       x: 130,
                       y: 50,
                       symbol: "rect",
-                      itemStyle: { 
+                      itemStyle: {
                         color: "#8B5CF6",
                         borderColor: "#6D28D9",
-                        borderWidth: 2
+                        borderWidth: 2,
                       },
-                      symbolSize: [75, 35]
+                      symbolSize: [75, 35],
                     },
                     {
                       name: "国务院审批",
                       x: 150,
                       y: 50,
                       symbol: "rect",
-                      itemStyle: { 
+                      itemStyle: {
                         color: "#10B981",
                         borderColor: "#059669",
-                        borderWidth: 2
+                        borderWidth: 2,
                       },
-                      symbolSize: [60, 35]
+                      symbolSize: [60, 35],
                     },
                     {
                       name: "发布实施",
                       x: 170,
                       y: 50,
                       symbol: "rect",
-                      itemStyle: { 
+                      itemStyle: {
                         color: "#10B981",
                         borderColor: "#059669",
-                        borderWidth: 2
+                        borderWidth: 2,
                       },
-                      symbolSize: [60, 35]
-                    }
+                      symbolSize: [60, 35],
+                    },
                   ],
                   links: [
-                    { 
-                      source: "预研阶段", 
+                    {
+                      source: "预研阶段",
                       target: "正式申报",
-                      lineStyle: { color: "#10B981", width: 2 }
+                      lineStyle: { color: "#10B981", width: 2 },
                     },
-                    { 
-                      source: "正式申报", 
+                    {
+                      source: "正式申报",
                       target: "形式审查",
-                      lineStyle: { color: "#10B981", width: 2 }
+                      lineStyle: { color: "#10B981", width: 2 },
                     },
-                    { 
-                      source: "形式审查", 
+                    {
+                      source: "形式审查",
                       target: "专家评审",
-                      label: { 
-                        show: true, 
+                      label: {
+                        show: true,
                         formatter: "通过",
                         color: "#059669",
                         fontSize: 9,
-                        fontWeight: "bold"
+                        fontWeight: "bold",
                       },
-                      lineStyle: { color: "#10B981", width: 2 }
+                      lineStyle: { color: "#10B981", width: 2 },
                     },
-                    { 
-                      source: "形式审查", 
+                    {
+                      source: "形式审查",
                       target: "限期补正",
-                      label: { 
-                        show: true, 
+                      label: {
+                        show: true,
                         formatter: "不通过",
                         color: "#DC2626",
                         fontSize: 9,
-                        fontWeight: "bold"
+                        fontWeight: "bold",
                       },
-                      lineStyle: { color: "#EF4444", width: 2, type: "dashed" }
+                      lineStyle: { color: "#EF4444", width: 2, type: "dashed" },
                     },
-                    { 
-                      source: "限期补正", 
+                    {
+                      source: "限期补正",
                       target: "形式审查",
-                      lineStyle: { color: "#F59E0B", width: 1, curveness: 0.3 }
+                      lineStyle: { color: "#F59E0B", width: 1, curveness: 0.3 },
                     },
-                    { 
-                      source: "专家评审", 
+                    {
+                      source: "专家评审",
                       target: "技术评审",
-                      lineStyle: { color: "#10B981", width: 2 }
+                      lineStyle: { color: "#10B981", width: 2 },
                     },
-                    { 
-                      source: "技术评审", 
+                    {
+                      source: "技术评审",
                       target: "公示征求意见",
-                      label: { 
-                        show: true, 
+                      label: {
+                        show: true,
                         formatter: "通过",
                         color: "#059669",
                         fontSize: 9,
-                        fontWeight: "bold"
+                        fontWeight: "bold",
                       },
-                      lineStyle: { color: "#10B981", width: 2 }
+                      lineStyle: { color: "#10B981", width: 2 },
                     },
-                    { 
-                      source: "技术评审", 
+                    {
+                      source: "技术评审",
                       target: "终止流程",
-                      label: { 
-                        show: true, 
+                      label: {
+                        show: true,
                         formatter: "不通过",
                         color: "#DC2626",
                         fontSize: 9,
-                        fontWeight: "bold"
+                        fontWeight: "bold",
                       },
-                      lineStyle: { color: "#EF4444", width: 2, type: "dashed" }
+                      lineStyle: { color: "#EF4444", width: 2, type: "dashed" },
                     },
-                    { 
-                      source: "公示征求意见", 
+                    {
+                      source: "公示征求意见",
                       target: "部际联席会议",
-                      lineStyle: { color: "#10B981", width: 2 }
+                      lineStyle: { color: "#10B981", width: 2 },
                     },
-                    { 
-                      source: "部际联席会议", 
+                    {
+                      source: "部际联席会议",
                       target: "国务院审批",
-                      lineStyle: { color: "#10B981", width: 2 }
+                      lineStyle: { color: "#10B981", width: 2 },
                     },
-                    { 
-                      source: "国务院审批", 
+                    {
+                      source: "国务院审批",
                       target: "发布实施",
-                      lineStyle: { color: "#10B981", width: 2 }
-                    }
+                      lineStyle: { color: "#10B981", width: 2 },
+                    },
                   ],
-                  lineStyle: { 
-                    opacity: 0.8, 
-                    width: 2, 
+                  lineStyle: {
+                    opacity: 0.8,
+                    width: 2,
                     curveness: 0.1,
-                    color: "#4B5563"
+                    color: "#4B5563",
                   },
                 },
               ],
