@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>数据镜头下的新职业生存实录</title>
 
-    <!-- 引入必要的库 -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2.1.0/dist/echarts-wordcloud.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -122,7 +121,7 @@
         animation: scroll 25s linear infinite;
         position: absolute;
         will-change: transform;
-        left: 100vw; /* 确保弹幕在动画开始前位于屏幕右侧外 */
+        left: 100vw;
       }
       .scroll-text:hover {
         animation-play-state: paused;
@@ -147,14 +146,12 @@
         font-weight: bold !important;
       }
 
-      /* 文本对齐和首行缩进样式 */
       p {
         text-align: justify !important;
         text-indent: 2em;
         line-height: 1.6;
       }
 
-      /* 针对包含段落文本的div应用两端对齐和首行缩进 */
       div.text-center.max-w-3xl,
       div.text-center.max-w-4xl {
         text-align: justify !important;
@@ -162,7 +159,6 @@
         line-height: 1.6;
       }
 
-      /* 标题、特殊元素和交互元素保持居中 */
       h1,
       h2,
       h3,
@@ -174,9 +170,43 @@
       button,
       .subtitle,
       footer p,
-      div.mt-8.text-center {
+      div.mt-8.text-center,
+      .image-caption {
         text-align: center !important;
         text-indent: 0 !important;
+      }
+
+      /* 新增优化样式 */
+      .section-content {
+        max-width: 100%;
+        margin: 0 auto;
+      }
+
+      .chart-container {
+        background: linear-gradient(145deg, rgba(31, 41, 55, 0.8), rgba(17, 24, 39, 0.9));
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .text-content {
+        background: linear-gradient(145deg, rgba(31, 41, 55, 0.3), rgba(17, 24, 39, 0.4));
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(5px);
+        padding: 2rem;
+        border-radius: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      @media (max-width: 768px) {
+        .grid.lg\\:grid-cols-5 {
+          grid-template-columns: 1fr !important;
+          gap: 2rem !important;
+        }
+        
+        .lg\\:col-span-3,
+        .lg\\:col-span-2 {
+          grid-column: span 1 !important;
+        }
       }
     </style>
   </head>
@@ -196,22 +226,45 @@
 
       <div class="relative z-20 w-full max-w-7xl">
         <h1
-          class="text-4xl md:text-7xl font-bold text-white mb-6 tracking-tight leading-tight"
+          class="text-4xl md:text-8xl font-bold text-white mb-8 tracking-tight leading-tight text-center"
         >
-          数据镜头下的<br class="md:hidden" /><span
-            class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500"
-            >新职业生存实录</span
-          >
+          <span class="block md:inline">数据镜头下的</span><br class="md:hidden" />
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 animate-pulse">
+            新职业生存实录
+          </span>
         </h1>
-        <div class="max-w-4xl mx-auto text-lg text-gray-400 space-y-4 mb-8">
-          <p>
+        <div class="max-w-7xl mx-auto mb-12 grid lg:grid-cols-5 gap-8 items-center">
+          <div class="lg:col-span-3 text-lg text-gray-300 space-y-6">
+            <p class="leading-relaxed">
             自4月19日起，每周六和重大节假日“魅力重庆”无人机灯光秀在重庆两江四岸核心区常态化展演，背后是无人机飞行工程师陆子祥团队操作。随着低空经济的蓬勃发展，无人机飞行工程师作为新兴职业逐渐进入大家视野。
           </p>
-          <p>
-            自2019年建立新职业信息发布制度以来，人社部已累计发布了7批共110个新兴职业，主要分布在人工智能与数字经济、康养服务、低碳环保与工业技术等领域。新兴职业逐渐兴起，产业结构、地域结构、职业性质、人才结构维度均发生变化，就业结构进入了“动态重组期”。权威数据将作为追光灯，深入分析新兴职业的发展现状、背后动因及面临的问题，展现这场职业变革的壮阔图景。
-          </p>
+            <div class="flex items-center gap-4 text-sm text-gray-400">
+              <span class="flex items-center gap-2">
+                <i class="fa fa-calendar"></i>
+                2025年数据新闻
+              </span>
+              <span class="flex items-center gap-2">
+                <i class="fa fa-bar-chart"></i>
+                数据驱动洞察
+              </span>
+            </div>
+
+          </div>
+          <div class="lg:col-span-2 flex justify-center">
+            <div class="relative group">
+              <img src="figures/chongqing-drone-show-engineer-preparation.jpg" 
+                   alt="重庆无人机灯光秀工程师准备工作" 
+                   class="w-full max-w-sm h-auto rounded-xl shadow-2xl border border-gray-600/50 
+                          group-hover:shadow-cyan-500/25 transition-all duration-300 
+                          group-hover:scale-105 group-hover:border-cyan-500/50">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-xl"></div>
+              <p class="text-xs text-gray-400 mt-3 text-center opacity-75">
+                <i class="fa fa-camera mr-1"></i>来源：微博
+              </p>
+            </div>
+          </div>
         </div>
-        <div id="header-chart" class="w-full h-80 glow-card p-4"></div>
+        <div id="header-chart" class="w-full h-96 glow-card p-6 mt-8"></div>
       </div>
     </header>
 
@@ -222,12 +275,13 @@
     </footer>
 
     <template id="section-template">
-      <section class="py-20 px-4 reveal">
+      <section class="py-24 px-6 reveal">
         <div class="max-w-7xl mx-auto">
           <h2
-            class="text-3xl md:text-5xl font-bold text-center text-white mb-4"
+            class="text-3xl md:text-6xl font-bold text-center text-white mb-6 
+                   bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent"
           ></h2>
-          <div class="subtitle text-center text-gray-500 mb-16"></div>
+          <div class="subtitle text-center text-gray-400 mb-20 text-lg max-w-4xl mx-auto leading-relaxed"></div>
           <div class="content-wrapper"></div>
         </div>
       </section>
@@ -235,7 +289,7 @@
 
     <template id="intro-template">
       <section
-        class="min-h-[70vh] flex items-center justify-center text-center p-8 relative overflow-hidden reveal"
+        class="min-h-[80vh] flex items-center justify-center text-center p-8 relative overflow-hidden reveal"
       >
         <div
           class="absolute inset-0 bg-gradient-to-br from-blue-900/50 via-gray-900 to-gray-900 z-0"
@@ -261,16 +315,13 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        // =================================================================
-        // 配置与数据定义
-        // =================================================================
         const contentTemplates = {
-          status: `<div class="space-y-16"><div class="text-center max-w-3xl mx-auto">新职业认证经历严格的官方审批流程，从预研到最终发布需要经过多个环节的严格把关。</div><div class="lifecycle-chart w-full h-96 glow-card p-4"></div><div class="text-center max-w-3xl mx-auto">目前110个官方认证职业远不足以涵盖市面上的全部新兴职业，多种民间命名岗位尚未拥有"官方姓名"。以"元宇宙场景策划师"（含葬礼策划方向）为例，近3年岗位量年增350%，但至今仍未被纳入官方职业体系，这类"未认证职业"多停留在前两个阶段。</div><div class="professions-word-cloud w-full h-96 glow-card p-4"></div><div class="text-center max-w-3xl mx-auto">与此同时，新兴职业在不同地域、不同领域也呈现出不同发展态势。</div><div class="domain-barchart w-full h-96 glow-card p-4"></div></div>`,
-          drivers: `<div class="sankey-chart w-full h-[32rem] glow-card p-4"></div>`,
-          rectification: `<div class="text-center max-w-3xl mx-auto">职业名称的"正名"过程，藏着行业成熟的密码。2022年"银发经济"相关岗位中，38%的招聘信息使用"老年数字辅导员""银发生活规划师"等民间称呼，直到2024 年 "老年数字服务师"被纳入新职业目录，才形成统一的职业标准。</div><div class="rectification-word-clouds w-full h-96 mt-12"></div>`,
-          predicament: `<div class="text-center max-w-3xl mx-auto">繁荣背后，新兴职业的权益保障仍存短板。数据显示，未认证职业从业者中，68%未签订规范劳动合同，45%无法享受带薪休假。</div><div class="rights-barchart w-full h-96 mt-12 glow-card p-4"></div>`,
-          reconstruction: `<div class="text-center max-w-3xl mx-auto space-y-4"><p>宋龙杰从一线收派件到获评"济南市技术能手"，再到成为首批E类高层次人才，他的逆袭成为数万从业者的缩影。</p><p>当代年轻人渴望摆脱传统职场的束缚、追求更加灵活的工作方式的态度。他们希望能够在自己的节奏下工作，充分发挥创造力，同时享受生活的平衡。</p></div><div class="factors-piechart w-full h-96 mt-12"></div>`,
-          conclusion: `<div class="text-center max-w-4xl mx-auto space-y-4"><p>从电影《她》走出的人工智能数字人训练师，从《聊斋志异》走出的服务犬驯养师……新兴职业的生长史，本质上是个体价值与时代需求的"动态应答"。</p><p>从技术驱动到政策规范，从权益保障到价值重构，每一组数据的波动，都在书写着就业市场的新规则——而那些尚未被命名的职业，或许正藏着未来社会的模样。</p></div><div class="future-map w-full h-96 mt-12 glow-card p-4 relative"></div><div class="mt-8 text-center"><p class="text-lg mb-4">你认为下一个被认证的职业会是？</p><input type="text" placeholder="输入你的想法..." class="bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-primary"><button class="bg-primary text-white font-bold py-2 px-6 rounded-lg ml-2 transition-transform hover:scale-105">提交</button></div>`,
+          status: `<div class="space-y-20"><div class="text-center max-w-4xl mx-auto text-content">新职业认证经历严格的官方审批流程，从预研到最终发布需要经过多个环节的严格把关。</div><div class="lifecycle-chart w-full h-96 glow-card p-6 chart-container"></div><div class="text-center max-w-4xl mx-auto text-content">目前110个官方认证职业远不足以涵盖市面上的全部新兴职业，多种民间命名岗位尚未拥有"官方姓名"。以"元宇宙场景策划师"（含葬礼策划方向）为例，近3年岗位量年增350%，但至今仍未被纳入官方职业体系，这类"未认证职业"多停留在前两个阶段。</div><div class="professions-word-cloud w-full h-96 glow-card p-6 chart-container"></div><div class="text-center max-w-4xl mx-auto text-content">与此同时，新兴职业在不同地域、不同领域也呈现出不同发展态势。</div><div class="domain-barchart w-full h-96 glow-card p-6 chart-container"></div></div>`,
+          drivers: `<div class="sankey-chart w-full h-[32rem] glow-card p-6 chart-container"></div>`,
+          rectification: `<div class="text-center max-w-4xl mx-auto text-content">职业名称的"正名"过程，藏着行业成熟的密码。2022年"银发经济"相关岗位中，38%的招聘信息使用"老年数字辅导员""银发生活规划师"等民间称呼，直到2024 年 "老年数字服务师"被纳入新职业目录，才形成统一的职业标准。</div><div class="rectification-word-clouds w-full h-96 mt-16 chart-container"></div>`,
+          predicament: `<div class="text-center max-w-4xl mx-auto text-content">繁荣背后，新兴职业的权益保障仍存短板。数据显示，未认证职业从业者中，68%未签订规范劳动合同，45%无法享受带薪休假。</div><div class="rights-barchart w-full h-96 mt-16 glow-card p-6 chart-container"></div>`,
+          reconstruction: `<div class="text-center max-w-5xl mx-auto space-y-6 text-content"><p>宋龙杰从一线收派件到获评"济南市技术能手"，再到成为首批E类高层次人才，他的逆袭成为数万从业者的缩影。</p><p>当代年轻人渴望摆脱传统职场的束缚、追求更加灵活的工作方式的态度。他们希望能够在自己的节奏下工作，充分发挥创造力，同时享受生活的平衡。</p></div><div class="factors-piechart w-full h-96 mt-16 chart-container"></div>`,
+          conclusion: `<div class="text-center max-w-5xl mx-auto space-y-6 text-content"><p>从电影《她》走出的人工智能数字人训练师，从《聊斋志异》走出的服务犬驯养师……新兴职业的生长史，本质上是个体价值与时代需求的"动态应答"。</p><p>从技术驱动到政策规范，从权益保障到价值重构，每一组数据的波动，都在书写着就业市场的新规则——而那些尚未被命名的职业，或许正藏着未来社会的模样。</p></div><div class="future-map w-full h-96 mt-16 glow-card p-6 chart-container relative"></div><div class="mt-12 text-center"><p class="text-xl mb-6 text-gray-300">你认为下一个被认证的职业会是？</p><div class="flex justify-center gap-4 max-w-md mx-auto"><input type="text" placeholder="输入你的想法..." class="bg-gray-700/50 border border-gray-600 rounded-xl px-6 py-3 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent flex-1 backdrop-blur-sm"><button class="bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold py-3 px-8 rounded-xl transition-all hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/25">提交</button></div></div>`,
         };
         const sections = [
           {
@@ -307,11 +358,7 @@
           className: "echarts-tooltip",
         };
 
-        // =================================================================
-        // 页面初始化
-        // =================================================================
         function initPage() {
-          // 初始化标题页图表
           initHeaderChart();
 
           const mainContent = document.getElementById("main-content");
@@ -325,13 +372,11 @@
           sections.forEach((data) => {
             let sectionClone;
             if (data.isIntro) {
-              // 使用intro模板创建小标题页面
               sectionClone = introTemplate.content.cloneNode(true);
               const sectionEl = sectionClone.querySelector("section");
               sectionEl.id = data.id;
               sectionClone.querySelector("h2").innerHTML = data.title;
             } else {
-              // 使用普通模板创建内容页面
               sectionClone = sectionTemplate.content.cloneNode(true);
               const sectionEl = sectionClone.querySelector("section");
               sectionEl.id = data.id;
@@ -408,9 +453,7 @@
           danmakuItems.forEach((item, i) => {
             const wrapper = document.createElement("div");
             wrapper.className = "scroll-text";
-            // 改进弹幕垂直分布，确保更均匀覆盖屏幕
             wrapper.style.top = `${5 + (i % 8) * 11}%`;
-            // 调整动画持续时间和延迟，让弹幕更连续，速度更快
             wrapper.style.animationDuration = `${8 + Math.random() * 7}s`;
             wrapper.style.animationDelay = `${i * 2 + Math.random() * 3}s`;
             const el = document.createElement("div");
@@ -423,7 +466,6 @@
               </span>
             `;
 
-            // 添加鼠标悬停暂停功能
             el.addEventListener("mouseenter", () => {
               wrapper.style.animationPlayState = "paused";
             });
@@ -437,9 +479,6 @@
           });
         }
 
-        // =================================================================
-        // 标题页图表初始化
-        // =================================================================
         function initHeaderChart() {
           setTimeout(() => {
             const chartElement = document.getElementById("header-chart");
@@ -449,7 +488,6 @@
             }
             const headerChart = echarts.init(chartElement, "dark");
 
-            // 数据准备
             const years = [
               "2019年",
               "2020年",
@@ -586,18 +624,13 @@
               },
             });
 
-            // 窗口大小改变时重新调整图表
             window.addEventListener("resize", () => {
               headerChart.resize();
             });
           }, 500);
         }
 
-        // =================================================================
-        // 各章节图表实现
-        // =================================================================
         function setupStatusIntro(section) {
-          // 为这个特定的intro页面设置弹幕
           const container = section.querySelector("#danmaku-container");
           if (!container) return;
           const danmakuItems = [
