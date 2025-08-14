@@ -8,6 +8,21 @@
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2.1.0/dist/echarts-wordcloud.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+      // 自定义throttle函数
+      function throttle(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+        };
+      }
+    </script>
 
     <link
       rel="stylesheet"
@@ -193,7 +208,7 @@
         font-weight: bold !important;
       }
 
-      /* 文本样式优化 */
+      /* 文本样式优化 - 两端对齐和首行缩进 */
       p {
         text-align: justify !important;
         text-indent: 2em;
@@ -202,18 +217,56 @@
         color: rgba(209, 213, 219, 0.9);
       }
 
+      /* 段落文本统一样式 */
+      .text-content, 
+      .fullscreen-text,
       div.text-center.max-w-3xl,
-      div.text-center.max-w-4xl {
+      div.text-center.max-w-4xl,
+      div.text-center.max-w-5xl,
+      .section-content p,
+      .leading-relaxed {
         text-align: justify !important;
-        text-indent: 2em;
+        text-indent: 2em !important;
         line-height: 1.8;
+        color: rgba(209, 213, 219, 0.9);
       }
 
+      /* 特定不需要缩进的元素 */
       h1, h2, h3, h4, h5, h6,
       .danmaku, input, button, .subtitle,
-      footer p, div.mt-8.text-center, .image-caption {
+      footer p, 
+      .image-caption,
+      nav p,
+      .text-sm,
+      .text-xs,
+      .nav-item,
+      .modal-close,
+      .chart-title,
+      .debug-info {
         text-align: center !important;
         text-indent: 0 !important;
+      }
+
+      /* 确保导航菜单文本不受影响 */
+      nav, nav *, .nav-indicator, .nav-progress {
+        text-align: left !important;
+        text-indent: 0 !important;
+      }
+
+      /* 强制正文内容应用两端对齐和首行缩进 */
+      .lg\:col-span-3 p,
+      .max-w-md p,
+      .max-w-lg p,
+      .max-w-xl p,
+      .max-w-2xl p,
+      .max-w-3xl p,
+      .max-w-4xl p,
+      .max-w-5xl p,
+      .max-w-6xl p,
+      .text-2xl.text-gray-300 p {
+        text-align: justify !important;
+        text-indent: 2em !important;
+        line-height: 1.8 !important;
       }
 
       /* 内容区域样式优化 */
@@ -372,7 +425,7 @@
       }
 
       .image-modal.show {
-        display: flex;
+        display: flex !important;
         align-items: center;
         justify-content: center;
         animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -454,7 +507,7 @@
       }
 
       .chart-modal.show {
-        display: flex;
+        display: flex !important;
         align-items: center;
         justify-content: center;
         animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -668,7 +721,7 @@
           class="max-w-7xl mx-auto mb-12 mt-16 grid lg:grid-cols-5 gap-8 items-center"
         >
           <div
-            class="lg:col-span-3 lg:order-2 text-2xl text-gray-300 space-y-6 flex items-center justify-center"
+            class="lg:col-span-3 lg:order-2 text-2xl text-gray-300 space-y-6 flex items-center justify-center text-content"
           >
             <p class="leading-relaxed max-w-md">
               自4月19日起，每周六和重大节假日“魅力重庆”无人机灯光秀在重庆两江四岸核心区常态化展演，背后是无人机飞行工程师陆子祥团队操作。随着低空经济的蓬勃发展，无人机飞行工程师作为新兴职业逐渐进入大家视野。
@@ -683,7 +736,7 @@
                 onclick="openImageModal(this)"
               />
               <div
-                class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-xl"
+                class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-xl pointer-events-none"
               ></div>
               <div class="w-full flex justify-center mt-4">
                 <p
@@ -698,7 +751,7 @@
 
         <!-- 新职业发展趋势图表 -->
         <div class="w-full max-w-7xl mx-auto mb-16">
-          <div class="text-center mb-8">
+          <div class="text-center mb-8 text-content">
             <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
               新职业发布趋势分析
             </h3>
@@ -737,7 +790,7 @@
             class="text-4xl md:text-8xl font-bold text-white mb-8 tracking-tight leading-tight text-center"
           ></h2>
           <div
-            class="subtitle text-center text-gray-300 mb-16 text-2xl max-w-4xl mx-auto leading-relaxed"
+            class="subtitle text-center text-gray-300 mb-16 text-2xl max-w-4xl mx-auto leading-relaxed text-content"
           ></div>
           <div class="content-wrapper"></div>
         </div>
@@ -802,7 +855,7 @@
               <p>从技术驱动到政策规范，从权益保障到价值重构，每一组数据的波动，都在书写着就业市场的新规则——而那些尚未被命名的职业，或许正藏着未来社会的模样。</p>
             </div>
             <div class="future-map w-full h-[35vh] mt-8 glow-card p-6 chart-container fullscreen-chart relative"></div>
-            <div class="mt-8 text-center">
+            <div class="mt-8 text-center text-content fullscreen-text">
               <p class="text-2xl mb-6 text-gray-300">你认为下一个被认证的职业会是？</p>
               <div class="flex justify-center gap-4 max-w-lg mx-auto">
                 <input type="text" placeholder="输入你的想法..." class="bg-gray-700/50 border border-gray-600 rounded-xl px-6 py-4 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent flex-1 backdrop-blur-sm text-lg">
@@ -1160,7 +1213,7 @@
             headerChart.setOption(option);
 
             // 优化窗口大小变化处理
-            const resizeHandler = echarts.util.throttle(() => {
+            const resizeHandler = throttle(() => {
               headerChart.resize();
             }, 300);
             
@@ -1926,7 +1979,7 @@
 
         // 优化窗口尺寸变化时的响应式处理
         const resizeObserver = new ResizeObserver(
-          echarts.util.throttle(() => {
+          throttle(() => {
             // 收集所有已初始化的图表实例并重新渲染
             const charts = document.querySelectorAll("[_echarts_instance_]");
             charts.forEach((element) => {
@@ -2031,23 +2084,31 @@
 
       // 优化的图片放大功能
       function openImageModal(img) {
+        console.log('openImageModal called with:', img);
         const modal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImage');
         
-        // 预加载图片以提高用户体验
-        const fullImg = new Image();
-        fullImg.onload = function() {
-          modalImg.src = this.src;
+        console.log('modal:', modal, 'modalImg:', modalImg);
+        
+        if (modal && modalImg) {
+          modalImg.src = img.src;
           modalImg.alt = img.alt;
           modal.classList.add('show');
+          
+          // 检查类是否添加成功
+          console.log('Classes after adding show:', modal.className);
+          console.log('Computed style display:', window.getComputedStyle(modal).display);
           
           // 防止背景滚动
           document.body.style.overflow = 'hidden';
           
           // 添加键盘事件监听
           document.addEventListener('keydown', handleKeyPress);
-        };
-        fullImg.src = img.src;
+          
+          console.log('Modal should be visible now');
+        } else {
+          console.error('Modal elements not found');
+        }
       }
 
       function closeImageModal() {
@@ -2059,13 +2120,6 @@
         
         // 移除键盘事件监听
         document.removeEventListener('keydown', handleKeyPress);
-      }
-
-      // 键盘事件处理
-      function handleKeyPress(event) {
-        if (event.key === 'Escape') {
-          closeImageModal();
-        }
       }
 
       // 图表放大功能
