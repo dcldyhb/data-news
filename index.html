@@ -3,7 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>数据镜头下的新职业生存实录</title>
+  <title>6年110个就业新解（新方向）：数据揭秘新兴职业的生存与挑战</title>
+    <meta name="description" content="6年110个就业新解（新方向）：基于权威与招聘数据，揭秘新兴职业的发展态势、地域分布、行业动因与从业者面临的挑战。" />
+    <meta property="og:title" content="6年110个就业新解（新方向）：数据揭秘新兴职业的生存与挑战" />
+    <meta property="og:description" content="基于官方与招聘数据，本文解析新兴职业的分布、动因与挑战，呈现就业变革下的新方向与生存策略。" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="ref/topten.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="6年110个就业新解（新方向）：数据揭秘新兴职业的生存与挑战" />
+    <meta name="twitter:description" content="基于官方与招聘数据，解析新兴职业的发展、就业分布与面临的挑战。" />
 
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2.1.0/dist/echarts-wordcloud.min.js"></script>
@@ -806,12 +814,12 @@
         <h1
           class="text-4xl md:text-8xl font-bold text-white mb-8 tracking-tight leading-tight text-center"
         >
-          <span class="block md:inline">数据镜头下的</span
+          <span class="block md:inline">6年110个就业新解（新方向）：</span
           ><br class="md:hidden" />
           <span
             class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 animate-pulse"
           >
-            新职业生存实录
+            数据揭秘新兴职业的生存与挑战
           </span>
         </h1>
 
@@ -1038,6 +1046,24 @@
             return;
           }
 
+          // 使用 IntersectionObserver 延迟初始化各个 section 的图表/逻辑，减小首屏渲染压力
+          const initObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const id = entry.target.id;
+                const s = sections.find((ss) => ss.id === id);
+                if (s && s.setup && !entry.target.dataset.initialized) {
+                  try {
+                    s.setup(entry.target);
+                    entry.target.dataset.initialized = 'true';
+                  } catch (e) {
+                    console.error(`Error lazy-setup section "${id}":`, e);
+                  }
+                }
+              }
+            });
+          }, { rootMargin: '0px 0px -100px 0px', threshold: 0.1 });
+
           sections.forEach((data) => {
             let sectionClone;
             if (data.isIntro) {
@@ -1063,14 +1089,9 @@
             }
 
             mainContent.appendChild(sectionClone);
-            if (data.setup) {
-              try {
-                const sectionEl = mainContent.querySelector(`#${data.id}`);
-                data.setup(sectionEl);
-              } catch (e) {
-                console.error(`Error setting up section "${data.id}":`, e);
-              }
-            }
+            // 注册观察，首次进入视口时初始化
+            const sectionEl = mainContent.querySelector(`#${data.id}`);
+            if (sectionEl) initObserver.observe(sectionEl);
           });
 
           setupScrollAnimations();
@@ -1085,7 +1106,9 @@
                   setTimeout(() => {
                     entry.target.classList.add("visible");
                   }, entry.target.dataset.delay || 0);
-                  observer.unobserve(entry.target);
+                } else {
+                  // 离开视口时移除 visible，使得滚回时可以重放动画
+                  entry.target.classList.remove("visible");
                 }
               });
             },
