@@ -45,10 +45,10 @@
         theme: {
           extend: {
             colors: {
-              // 蓝白主题：深中浅蓝为主，去掉强烈暖色调
-              primary: "#1E40AF", /* 深蓝 - 主要按钮/强调 */
-              secondary: "#2563EB", /* 中蓝 - 次级强调 */
-              accent: "#60A5FA", /* 浅蓝/高光 */
+              primary: "#3B82F6",
+              secondary: "#F97316",
+              accent: "#10B981",
+              "cert-red": "#EF4444",
               "uncert-gray": "#6B7280",
             },
             animation: {
@@ -80,23 +80,14 @@
       };
     </script>
 
-  <link rel="stylesheet" href="styles/theme.css">
-    <!-- 更友好的中文/英文字体：Noto Sans SC + Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-      /* 小范围覆盖：启用自定义字体并优化正文基线 */
-      body { font-family: 'Noto Sans SC', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif; }
-      h1, h2, h3 { font-family: 'Inter', 'Noto Sans SC', sans-serif; font-weight: 700; }
-      /* 按钮基类，配合 theme.css 的变量 */
-      .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: .6rem 1rem; border-radius: .75rem; cursor: pointer; border: 1px solid transparent; transition: all .18s ease; }
-      .btn-primary { background: linear-gradient(90deg,var(--color-primary), #2563eb); color: white; box-shadow: 0 8px 20px rgba(37,99,235,0.12); }
-      .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(37,99,235,0.16); }
-      .btn-ghost { background: transparent; color: var(--text-dark); border-color: rgba(7,42,77,0.06); }
-    </style>
-  <style type="text/tailwindcss">
-  /* Performance hints */
+    <style type="text/tailwindcss">
+      :root {
+        --reveal-duration: 0.8s;
+        --chart-bg: rgba(31, 41, 55, 0.8);
+        --glass-bg: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(255, 255, 255, 0.1);
+      }
+      /* Performance hints */
       .reveal,
       .glow-card,
       .scroll-text,
@@ -130,9 +121,13 @@
         scroll-margin-top: 0;
       }
       body {
-        /* 由 theme.css 统一管理背景：设为白色以确保视觉一致 */
-          background: #ffffff;
-        color: var(--text-dark);
+        background: linear-gradient(
+          135deg,
+          #111827 0%,
+          #1f2937 50%,
+          #111827 100%
+        );
+        color: #d1d5db;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -159,13 +154,13 @@
       .glow-card {
         position: relative;
         overflow: hidden;
-        background: linear-gradient(145deg, var(--chart-bg), rgba(234,244,255,0.6));
+        background: linear-gradient(145deg, var(--chart-bg), rgba(17,24,39,0.9));
         border-radius: 1rem;
         border: 1px solid var(--glass-border);
         /* reduce backdrop-filter for performance */
-        backdrop-filter: blur(6px);
-        -webkit-backdrop-filter: blur(6px);
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
         transition: transform 0.25s ease, box-shadow 0.25s ease;
       }
 
@@ -175,32 +170,31 @@
       }
       /* 优化弹幕样式 */
       .danmaku {
-  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  /* 改为深色半透明，增强与浅色背景的对比度 */
-  background: rgba(7, 42, 77, 0.82);
-  color: #ffffff;
-  padding: 8px 14px;
-  border-radius: 9999px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  white-space: nowrap;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  box-shadow: 0 10px 26px rgba(3, 7, 18, 0.28);
-  font-size: 14px;
-  border: 1px solid rgba(255,255,255,0.06);
-  text-shadow: 0 1px 0 rgba(0,0,0,0.3);
-  will-change: transform, box-shadow;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        background: rgba(31, 41, 55, 0.85);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 9999px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25),
+          0 1px 2px rgba(255, 255, 255, 0.1) inset;
+        font-size: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        will-change: transform, box-shadow;
       }
       .danmaku:hover {
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 18px 40px rgba(3, 7, 18, 0.35);
-  background: rgba(7, 42, 77, 0.95);
-  color: #ffffff;
-  border-color: rgba(255,255,255,0.08);
-  z-index: 60 !important;
+        transform: scale(1.05) translateY(-2px);
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3),
+          0 2px 8px rgba(0, 0, 0, 0.4);
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        border-color: rgba(59, 130, 246, 0.5);
+        z-index: 50 !important;
       }
 
       /* 优化滚动文本性能 */
@@ -237,9 +231,8 @@
       /* ECharts 工具提示样式优化 */
       .echarts-tooltip {
         background: rgba(17, 24, 39, 0.95) !important;
-  background: rgba(255,255,255,0.98) !important;
-  border: 1px solid rgba(30,64,175,0.08) !important;
-  color: var(--text-dark) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: #d1d5db !important;
         border-radius: 8px !important;
         backdrop-filter: blur(10px) !important;
         -webkit-backdrop-filter: blur(10px) !important;
@@ -258,7 +251,7 @@
         text-indent: 2em;
         line-height: 1.8;
         margin-bottom: 1.2em;
-        color: var(--text-dark);
+        color: rgba(209, 213, 219, 0.9);
       }
 
       /* 段落文本统一样式 */
@@ -272,7 +265,7 @@
         text-align: justify !important;
         text-indent: 2em !important;
         line-height: 1.8;
-        color: var(--text-dark);
+        color: rgba(209, 213, 219, 0.9);
       }
 
       /* 特定不需要缩进的元素 */
@@ -333,8 +326,8 @@
       .chart-container {
         background: linear-gradient(145deg, var(--chart-bg), rgba(17,24,39,0.9));
         /* reduce heavy blur */
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
         border: 1px solid var(--glass-border);
         position: relative;
         overflow: hidden;
@@ -350,9 +343,9 @@
         bottom: 0;
         background: linear-gradient(
           135deg,
-          rgba(234,244,255,0.7) 0%,
+          rgba(255, 255, 255, 0.1) 0%,
           transparent 50%,
-          rgba(234,244,255,0.3) 100%
+          rgba(255, 255, 255, 0.05) 100%
         );
         pointer-events: none;
       }
@@ -427,11 +420,11 @@
         text-align: center;
       }
 
-  .lg\:col-span-3.text-xl.text-current {
+  .lg\\:col-span-3.text-xl.text-current {
         padding: 0 2rem;
       }
 
-  .lg\:col-span-3.text-xl.text-current p {
+  .lg\\:col-span-3.text-xl.text-current p {
         max-width: 18rem;
         margin: 0 auto;
         line-height: 1.8;
@@ -653,10 +646,62 @@
         opacity: 1;
       }
 
-  /* 导航样式已集中到 styles/theme.css */
+      /* 导航样式增强 */
+      .nav-section {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .nav-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .nav-section:hover::before {
+        left: 100%;
+      }
+
+      .nav-active {
+        background: rgba(59, 130, 246, 0.2) !important;
+        border-left: 3px solid #3b82f6;
+        color: #60a5fa !important;
+      }
+
+      .nav-indicator {
+        position: fixed;
+        top: 50%;
+        right: 2px;
+        transform: translateY(-50%);
+        width: 2px;
+        height: 200px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 1px;
+        z-index: 40;
+      }
+
+      .nav-progress {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: linear-gradient(180deg, #3b82f6, #8b5cf6, #ec4899);
+        border-radius: 1px;
+        transition: height 0.3s ease;
+      }
     </style>
   </head>
-  <body class="text-current" style="background: #ffffff;">
+  <body class="bg-white text-current">
     <!-- 完整导航菜单 -->
     <nav
       class="fixed top-4 right-4 z-50 bg-black/80 backdrop-blur-md rounded-xl p-4 text-sm max-w-xs shadow-2xl border border-gray-700/50"
@@ -667,49 +712,49 @@
         📑 目录导航
       </div>
       <div class="space-y-1">
-          <a
+        <a
           href="#header"
           class="nav-section block text-blue-400 hover:text-blue-300 transition-all hover:bg-blue-500/10 px-3 py-2 rounded-lg"
           data-section="header"
         >
           <span class="text-current">📍</span> 标题页
         </a>
-          <a
+        <a
           href="#status-intro"
           class="nav-section block text-emerald-400 hover:text-emerald-300 transition-all hover:bg-emerald-500/10 px-3 py-2 rounded-lg"
           data-section="status-intro"
         >
           <span class="text-current">01</span> 行业现状
         </a>
-          <a
+        <a
           href="#drivers"
           class="nav-section block text-purple-400 hover:text-purple-300 transition-all hover:bg-purple-500/10 px-3 py-2 rounded-lg"
           data-section="drivers"
         >
           <span class="text-current">02</span> 驱动密码
         </a>
-          <a
+        <a
           href="#rectification"
           class="nav-section block text-yellow-400 hover:text-yellow-300 transition-all hover:bg-yellow-500/10 px-3 py-2 rounded-lg"
           data-section="rectification"
         >
           <span class="text-current">03</span> "正名"时间
         </a>
-          <a
+        <a
           href="#predicament"
           class="nav-section block text-red-400 hover:text-red-300 transition-all hover:bg-red-500/10 px-3 py-2 rounded-lg"
           data-section="predicament"
         >
           <span class="text-current">04</span> 行业困境
         </a>
-          <a
+        <a
           href="#reconstruction"
           class="nav-section block text-indigo-400 hover:text-indigo-300 transition-all hover:bg-indigo-500/10 px-3 py-2 rounded-lg"
           data-section="reconstruction"
         >
           <span class="text-current">05</span> 价值重构
         </a>
-          <a
+        <a
           href="#conclusion"
           class="nav-section block text-pink-400 hover:text-pink-300 transition-all hover:bg-pink-500/10 px-3 py-2 rounded-lg"
           data-section="conclusion"
@@ -738,12 +783,6 @@
       <img id="modalImage" class="modal-content" alt="" />
     </div>
 
-    <!-- 弹幕详情小卡片 -->
-    <div id="danmakuCard" style="display:none; position:fixed; z-index:20000; background: rgba(7,42,77,0.95); color:#fff; padding:12px 16px; border-radius:12px; box-shadow:0 12px 36px rgba(2,6,23,0.6); max-width:320px;"> 
-      <div id="danmakuCardText" style="font-size:14px; line-height:1.4;"></div>
-      <div style="margin-top:8px; text-align:right;"><button onclick="closeDanmakuCard()" style="background:transparent; border:none; color:rgba(255,255,255,0.85); font-weight:600; cursor:pointer;">关闭</button></div>
-    </div>
-
     <!-- 图表放大模态框 -->
     <div id="chartModal" class="chart-modal" onclick="closeChartModal()">
       <div class="chart-modal-content" onclick="event.stopPropagation()">
@@ -761,16 +800,19 @@
       id="header"
       class="min-h-screen flex flex-col items-center justify-center text-center p-8 relative overflow-hidden"
     >
-  <!-- 浅蓝渐变背景 -->
-  <div class="absolute inset-0 site-bg z-0" aria-hidden="true"></div>
-  <!-- 左上柔和高光 -->
-  <div class="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-sky-200/40 rounded-full filter blur-3xl animate-pulse" aria-hidden="true"></div>
-  <!-- 右下柔和高光（橙色改为淡蓝） -->
-  <div class="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-sky-200/30 rounded-full filter blur-3xl animate-pulse delay-1000" aria-hidden="true"></div>
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-blue-900/50 via-gray-900 to-gray-900 z-0"
+      ></div>
+      <div
+        class="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-blue-500/20 rounded-full filter blur-3xl animate-pulse"
+      ></div>
+      <div
+        class="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-orange-500/20 rounded-full filter blur-3xl animate-pulse delay-1000"
+      ></div>
 
       <div class="relative z-20 w-full max-w-7xl">
         <h1
-          class="text-4xl md:text-8xl font-bold text-current mb-8 tracking-tight leading-tight text-center"
+          class="text-4xl md:text-8xl font-bold text-white mb-8 tracking-tight leading-tight text-center"
         >
           <span class="block md:inline">6年110个就业新解（新方向）：</span
           ><br class="md:hidden" />
@@ -799,9 +841,13 @@
                 class="w-full max-w-xs h-auto rounded-xl shadow-2xl border border-gray-600/50 group-hover:shadow-cyan-500/25 transition-all duration-300 group-hover:scale-105 group-hover:border-cyan-500/50 clickable-image"
                 onclick="openImageModal(this)"
               />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-xl pointer-events-none"></div>
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-xl pointer-events-none"
+              ></div>
               <div class="w-full flex justify-center mt-4">
-                <p class="text-sm text-current text-center opacity-75 px-3 py-1 rounded-full" style="background: #ffffff;">
+                <p
+                  class="text-sm text-current text-center opacity-75 bg-gray-800/30 px-3 py-1 rounded-full backdrop-blur-sm"
+                >
                   <i class="fa fa-camera mr-2"></i>来源：微博
                 </p>
               </div>
@@ -812,8 +858,7 @@
         <!-- 新职业发展趋势图表 -->
         <div class="w-full max-w-7xl mx-auto mb-16">
           <div class="text-center mb-8 text-content">
-            <div class="text-center mb-8 text-content">
-            <h3 class="text-2xl md:text-3xl font-bold text-current mb-4">
+            <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
               新职业发布趋势分析
             </h3>
             <p class="text-current text-xl max-w-3xl mx-auto leading-relaxed">
@@ -830,22 +875,27 @@
 
     <main id="main-content"></main>
 
-  <footer class="text-center py-10" style="background: #ffffff; border-top: none;">
-  <p class="text-current">&copy; 2025 新职业观察报告.</p>
+    <footer class="text-center py-10 bg-white border-t border-gray-100">
+      <p class="text-current">&copy; 2025 新职业观察报告.</p>
     </footer>
 
     <template id="section-template">
       <section
         class="min-h-screen flex flex-col items-center justify-center text-center p-8 relative overflow-hidden reveal"
       >
-  <!-- 与 header 保持一致的浅蓝渐变背景与柔和高光 -->
-  <div class="absolute inset-0 site-bg z-0" aria-hidden="true"></div>
-        <div class="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-sky-200/40 rounded-full filter blur-3xl animate-pulse" aria-hidden="true"></div>
-        <div class="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-sky-200/30 rounded-full filter blur-3xl animate-pulse delay-1000" aria-hidden="true"></div>
+        <div
+          class="absolute inset-0 bg-gradient-to-br from-blue-900/50 via-gray-900 to-gray-900 z-0"
+        ></div>
+        <div
+          class="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-blue-500/20 rounded-full filter blur-3xl animate-pulse"
+        ></div>
+        <div
+          class="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-orange-500/20 rounded-full filter blur-3xl animate-pulse delay-1000"
+        ></div>
 
         <div class="relative z-20 w-full max-w-7xl">
           <h2
-            class="text-4xl md:text-8xl font-bold text-current mb-8 tracking-tight leading-tight text-center"
+            class="text-4xl md:text-8xl font-bold text-white mb-8 tracking-tight leading-tight text-center"
           ></h2>
           <div
             class="subtitle text-center text-current mb-16 text-2xl max-w-4xl mx-auto leading-relaxed text-content"
@@ -859,10 +909,15 @@
       <section
         class="min-h-screen flex flex-col items-center justify-center text-center p-8 relative overflow-hidden reveal"
       >
-  <!-- 与 header 保持一致的浅蓝渐变背景与柔和高光 -->
-  <div class="absolute inset-0 site-bg z-0" aria-hidden="true"></div>
-  <div class="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-sky-200/40 rounded-full filter blur-3xl animate-pulse" aria-hidden="true"></div>
-  <div class="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-sky-200/30 rounded-full filter blur-3xl animate-pulse delay-1000" aria-hidden="true"></div>
+        <div
+          class="absolute inset-0 bg-gradient-to-br from-blue-900/50 via-gray-900 to-gray-900 z-0"
+        ></div>
+        <div
+          class="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-blue-500/20 rounded-full filter blur-3xl animate-pulse"
+        ></div>
+        <div
+          class="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-orange-500/20 rounded-full filter blur-3xl animate-pulse delay-1000"
+        ></div>
         <div
           id="danmaku-container"
           class="absolute inset-0 z-10"
@@ -870,7 +925,7 @@
         ></div>
         <div class="relative z-20 w-full max-w-7xl">
           <h2
-            class="text-4xl md:text-8xl font-bold text-current mb-8 tracking-tight leading-tight text-center"
+            class="text-4xl md:text-8xl font-bold text-white mb-8 tracking-tight leading-tight text-center"
           ></h2>
         </div>
       </section>
@@ -930,8 +985,8 @@
             <div class="mt-8 text-center text-content fullscreen-text">
               <p class="text-2xl mb-6 text-current">你认为下一个被认证的职业会是？</p>
               <div class="flex justify-center gap-4 max-w-lg mx-auto">
-                <input type="text" placeholder="输入你的想法..." class="border rounded-xl px-6 py-4 text-current focus:outline-none flex-1 text-lg" style="background: #ffffff;">
-                <button class="font-bold py-4 px-8 rounded-xl transition-all hover:scale-105 text-current text-lg" style="background: #ffffff; border: none;">提交</button>
+                <input type="text" placeholder="输入你的想法..." class="bg-gray-700/50 border border-gray-600 rounded-xl px-6 py-4 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent flex-1 backdrop-blur-sm text-lg">
+                <button class="bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold py-4 px-8 rounded-xl transition-all hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/25 text-lg">提交</button>
               </div>
             </div>
           `,
@@ -1036,59 +1091,10 @@
             mainContent.appendChild(sectionClone);
             // 注册观察，首次进入视口时初始化
             const sectionEl = mainContent.querySelector(`#${data.id}`);
-            // 确保每个 section 拥有 .subtitle（若模板未提供）
-            const subtitleEl = sectionEl.querySelector('.subtitle');
-            if (!subtitleEl) {
-              const s = document.createElement('div');
-              s.className = 'subtitle';
-              // 取 section 的第一段作为小标题的简短摘要（若存在）
-              const firstP = sectionEl.querySelector('p');
-              s.textContent = firstP ? (firstP.textContent.slice(0, 80).trim() + '...') : '';
-              const h2 = sectionEl.querySelector('h2');
-              if (h2) h2.insertAdjacentElement('afterend', s);
-            }
             if (sectionEl) initObserver.observe(sectionEl);
           });
 
           setupScrollAnimations();
-        }
-
-        // 统一的图表主题美化：轴线、网格、图例颜色
-        function applyChartTheme(option) {
-          if (!option) return;
-          const axisColor = 'rgba(7,42,77,0.45)';
-          const splitColor = 'rgba(7,42,77,0.06)';
-          const textColor = 'var(--text-dark)';
-
-          // title/legend
-          if (option.title) {
-            if (Array.isArray(option.title)) {
-              option.title.forEach(t => (t.textStyle = { ...(t.textStyle||{}), color: textColor }));
-            } else {
-              option.title.textStyle = { ...(option.title.textStyle||{}), color: textColor };
-            }
-          }
-          if (option.legend) {
-            option.legend.textStyle = { ...(option.legend.textStyle||{}), color: textColor };
-          }
-
-          // xAxis / yAxis
-          ['xAxis','yAxis'].forEach(axisKey => {
-            if (!option[axisKey]) return;
-            const axes = Array.isArray(option[axisKey]) ? option[axisKey] : [option[axisKey]];
-            axes.forEach(ax => {
-              if (!ax) return;
-              ax.axisLabel = { ...(ax.axisLabel||{}), color: axisColor };
-              if (!ax.axisLine) ax.axisLine = {};
-              ax.axisLine.lineStyle = { ...(ax.axisLine.lineStyle||{}), color: axisColor };
-              if (!ax.splitLine) ax.splitLine = {};
-              ax.splitLine.lineStyle = { ...(ax.splitLine.lineStyle||{}), color: splitColor };
-            });
-          });
-
-          // tooltip / textStyle
-          option.textStyle = { ...(option.textStyle||{}), color: textColor };
-          return option;
         }
 
         function setupScrollAnimations() {
@@ -1166,12 +1172,6 @@
               </span>
             `;
 
-            // 点击弹出详情卡
-            el.addEventListener('click', (e) => {
-              e.stopPropagation();
-              showDanmakuCard(item, e);
-            });
-
             // 使用事件委托优化性能
             const handleMouseEnter = () =>
               (wrapper.style.animationPlayState = "paused");
@@ -1195,34 +1195,6 @@
             fragment.appendChild(createDanmaku(item, i));
           });
           container.appendChild(fragment);
-          // 初始可见性
-          if (window.danmakuVisible === false) container.style.display = 'none';
-        }
-
-        // 全局弹幕可见性开关
-        window.danmakuVisible = true;
-        function toggleDanmaku() {
-          window.danmakuVisible = !window.danmakuVisible;
-          const container = document.getElementById('danmaku-container');
-          if (container) container.style.display = window.danmakuVisible ? 'block' : 'none';
-        }
-
-        function showDanmakuCard(item, event) {
-          const card = document.getElementById('danmakuCard');
-          const text = document.getElementById('danmakuCardText');
-          if (!card || !text) return;
-          text.textContent = item.text + (item.likes ? (' \n点赞: ' + item.likes) : '');
-          // 放置在点击位置的右下方，防止溢出
-          const x = event.clientX + 12;
-          const y = event.clientY + 12;
-          card.style.left = Math.min(window.innerWidth - 340, x) + 'px';
-          card.style.top = Math.min(window.innerHeight - 120, y) + 'px';
-          card.style.display = 'block';
-        }
-
-        function closeDanmakuCard() {
-          const card = document.getElementById('danmakuCard');
-          if (card) card.style.display = 'none';
         }
 
         function initHeaderChart() {
@@ -1254,12 +1226,11 @@
             const growthRates = [0, 23.08, 12.5, 0, 5.56, -10.53];
 
             const option = {
-              backgroundColor: 'transparent',
               title: {
                 text: "新兴职业发布趋势",
                 left: "center",
                 textStyle: {
-                  color: "var(--text-dark)",
+                  color: "#fff",
                   fontSize: 20,
                   fontWeight: "bold",
                 },
@@ -1284,7 +1255,7 @@
               legend: {
                 data: ["新增职业数量", "增长速度"],
                 top: "12%",
-                textStyle: { color: "var(--text-dark)", fontSize: 12 },
+                textStyle: { color: "#fff", fontSize: 12 },
               },
               xAxis: [
                 {
@@ -1334,7 +1305,7 @@
                   data: jobCounts,
                   itemStyle: {
                     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                      { offset: 0, color: "var(--color-accent)" },
+                      { offset: 0, color: "#60A5FA" },
                       { offset: 0.5, color: "#3B82F6" },
                       { offset: 1, color: "#1E40AF" },
                     ]),
@@ -1351,7 +1322,7 @@
                   label: {
                     show: true,
                     position: "top",
-                    color: "var(--text-dark)",
+                    color: "#fff",
                     fontSize: 11,
                     fontWeight: "bold",
                   },
@@ -1453,13 +1424,9 @@
               wrapper.style.animationPlayState = "running";
             });
 
-            // 点击显示弹幕详情
-            el.addEventListener('click', (e) => { e.stopPropagation(); showDanmakuCard(item, e); });
-
             wrapper.appendChild(el);
             container.appendChild(wrapper);
           });
-          if (window.danmakuVisible === false) container.style.display = 'none';
         }
 
         function setupStatusCharts(section) {
@@ -1473,8 +1440,7 @@
             const lifecycleChart = echarts.init(lifecycleElement, "dark");
             // 存储为全局变量以供模态框使用
             window.lifecycleChart = lifecycleChart;
-            const lifecycleOpt = {
-              backgroundColor: 'transparent',
+            lifecycleChart.setOption({
               tooltip: { ...echartsTooltipOption },
               series: [
                 {
@@ -1484,7 +1450,7 @@
                   roam: false,
                   label: {
                     show: true,
-                    color: "var(--text-dark)",
+                    color: "#fff",
                     fontSize: 11,
                     fontWeight: "bold",
                     formatter: function (params) {
@@ -1497,7 +1463,7 @@
                     borderColor: "#4B5563",
                     borderWidth: 1,
                     textStyle: {
-                      color: "var(--text-dark)",
+                      color: "#fff",
                       fontSize: 12,
                     },
                     formatter: function (params) {
@@ -1757,9 +1723,7 @@
                   },
                 },
               ],
-            };
-            applyChartTheme(lifecycleOpt);
-            lifecycleChart.setOption(lifecycleOpt);
+            });
 
             const wordCloudElement = section.querySelector(
               ".professions-word-cloud"
@@ -1771,8 +1735,7 @@
             const wordCloudChart = echarts.init(wordCloudElement, "dark");
             // 存储为全局变量以供模态框使用
             window.wordCloudChart = wordCloudChart;
-            const wordCloudOpt = {
-              backgroundColor: 'transparent',
+            wordCloudChart.setOption({
               tooltip: {
                 ...echartsTooltipOption,
                 formatter: (p) => `${p.name}: ${p.value}个岗位`,
@@ -1789,7 +1752,7 @@
                       params.data.certified ? "#EF4444" : "#6B7280",
                   },
                   emphasis: {
-                    textStyle: { fontWeight: "bold", color: "var(--text-dark)" },
+                    textStyle: { fontWeight: "bold", color: "#fff" },
                   },
                   data: [
                     { name: "民宿管家", value: 1500, certified: true },
@@ -1803,9 +1766,7 @@
                   ],
                 },
               ],
-            };
-            applyChartTheme(wordCloudOpt);
-            wordCloudChart.setOption(wordCloudOpt);
+            });
 
             const domainBarElement = section.querySelector(".domain-barchart");
             if (!domainBarElement) {
@@ -1815,8 +1776,7 @@
             const domainBarChart = echarts.init(domainBarElement, "dark");
             // 存储为全局变量以供模态框使用
             window.domainBarChart = domainBarChart;
-            const domainBarOpt = {
-              backgroundColor: 'transparent',
+            domainBarChart.setOption({
               tooltip: { ...echartsTooltipOption },
               grid: {
                 left: "3%",
@@ -1846,12 +1806,10 @@
                       { offset: 1, color: "#22D3EE" },
                     ]),
                   },
-                  label: { show: true, position: "right", color: "var(--text-dark)" },
+                  label: { show: true, position: "right", color: "#fff" },
                 },
               ],
-            };
-            applyChartTheme(domainBarOpt);
-            domainBarChart.setOption(domainBarOpt);
+            });
           }, 100);
         }
 
@@ -1865,8 +1823,7 @@
             const sankeyChart = echarts.init(sankeyElement, "dark");
             // 存储为全局变量以供模态框使用
             window.sankeyChart = sankeyChart;
-            const sankeyOpt = {
-              backgroundColor: 'transparent',
+            sankeyChart.setOption({
               tooltip: {
                 trigger: "item",
                 triggerOn: "mousemove",
@@ -1897,9 +1854,7 @@
                 ],
                 lineStyle: { color: "source", curveness: 0.5 },
               },
-            };
-            applyChartTheme(sankeyOpt);
-            sankeyChart.setOption(sankeyOpt);
+            });
           }, 200);
         }
 
@@ -1913,8 +1868,7 @@
             const rightsChart = echarts.init(rightsElement, "dark");
             // 存储为全局变量以供模态框使用
             window.rightsChart = rightsChart;
-            const rightsOpt = {
-              backgroundColor: 'transparent',
+            rightsChart.setOption({
               tooltip: {
                 trigger: "axis",
                 axisPointer: { type: "shadow" },
@@ -1922,7 +1876,7 @@
               },
               legend: {
                 data: ["认证职业", "未认证职业"],
-                textStyle: { color: "var(--text-dark)" },
+                textStyle: { color: "#fff" },
               },
               grid: {
                 left: "3%",
@@ -1949,9 +1903,7 @@
                   data: [32, 25, 5],
                 },
               ],
-            };
-            applyChartTheme(rightsOpt);
-            rightsChart.setOption(rightsOpt);
+            });
           }, 400);
         }
 
@@ -1970,8 +1922,7 @@
             );
             // 存储为全局变量以供模态框使用
             window.rectificationChart = rectificationChart;
-            const rectificationOpt = {
-              backgroundColor: 'transparent',
+            rectificationChart.setOption({
               grid: [
                 { left: "5%", top: "5%", bottom: "5%", width: "40%" },
                 { right: "5%", top: "5%", bottom: "5%", width: "40%" },
@@ -2044,9 +1995,7 @@
                   data: [{ name: "老年数字服务师", value: 20 }],
                 },
               ],
-            };
-            applyChartTheme(rectificationOpt);
-            rectificationChart.setOption(rectificationOpt);
+            });
           }, 300);
         }
 
@@ -2060,7 +2009,7 @@
             const rightsChart = echarts.init(rightsElement, "dark");
             // 存储为全局变量以供模态框使用
             window.rightsChart = rightsChart;
-            const rightsOpt2 = {
+            rightsChart.setOption({
               tooltip: {
                 trigger: "axis",
                 axisPointer: { type: "shadow" },
@@ -2068,7 +2017,7 @@
               },
               legend: {
                 data: ["认证职业", "未认证职业"],
-                textStyle: { color: "var(--text-dark)" },
+                textStyle: { color: "#fff" },
               },
               grid: {
                 left: "3%",
@@ -2095,9 +2044,7 @@
                   data: [32, 25, 5],
                 },
               ],
-            };
-            applyChartTheme(rightsOpt2);
-            rightsChart.setOption(rightsOpt2);
+            });
           }, 400);
         }
 
@@ -2127,13 +2074,12 @@
               { name: '厨工/帮厨', value: 1.1 },
             ];
 
-            const topOpt = {
-              backgroundColor: 'transparent',
+            const option = {
               title: {
                 text: '养老/看护行业招聘职位数占比TOP10职业',
                 subtext: '统计规则：基于智联招聘2025年在线招聘数据库的数据监测统计分析  \n 数据来源: 智联招聘(www.zhaopin.com)',
                 left: 'center',
-                textStyle: { color: 'var(--text-dark)', fontSize: 16 },
+                textStyle: { color: '#fff', fontSize: 16 },
                 subtextStyle: { color: '#9CA3AF', fontSize: 11 },
               },
               tooltip: {
@@ -2148,7 +2094,7 @@
                 type: 'category',
                 inverse: true,
                 data: data.map(d => d.name),
-                axisLabel: { color: 'var(--text-dark)', fontSize: 13 },
+                axisLabel: { color: '#fff', fontSize: 13 },
                 axisLine: { show: false },
                 axisTick: { show: false },
               },
@@ -2164,12 +2110,12 @@
                     borderRadius: 8,
                   },
                   barWidth: 18,
-                  label: { show: true, position: 'right', color: 'var(--text-dark)', formatter: '{c}%' },
+                  label: { show: true, position: 'right', color: '#fff', formatter: '{c}%' },
                 },
               ],
             };
-            applyChartTheme(topOpt);
-            topChart.setOption(topOpt);
+
+            topChart.setOption(option);
 
             // 点击由全局 addChartClickListeners 统一处理（保持与其他图表一致）
 
@@ -2200,12 +2146,11 @@
                 { value: 30, name: "工作自由" },
               ],
             };
-            const pieOpt = {
-              backgroundColor: 'transparent',
+            pieChart.setOption({
               title: {
                 text: "职业选择核心因素演变",
                 left: "center",
-                textStyle: { color: "var(--text-dark)" },
+                textStyle: { color: "#fff" },
               },
               tooltip: {
                 trigger: "item",
@@ -2216,7 +2161,7 @@
                 orient: "vertical",
                 left: 10,
                 data: ["薪资待遇", "情感认同", "工作自由"],
-                textStyle: { color: "var(--text-dark)" },
+                textStyle: { color: "#fff" },
               },
               series: [
                 {
@@ -2232,9 +2177,7 @@
                   data: stages["2025"],
                 },
               ],
-            };
-            applyChartTheme(pieOpt);
-            pieChart.setOption(pieOpt);
+            });
             pieElement.addEventListener("click", () => {
               const currentYear = pieChart
                 .getOption()
@@ -2268,19 +2211,18 @@
               { name: "汉服造型师", value: 1, category: 1 },
               { name: "整理收纳师", value: 1, category: 1 },
             ];
-            const mapOpt = {
-              backgroundColor: 'transparent',
+            mapChart.setOption({
               title: {
                 text: "中国新职业图谱",
                 left: "center",
-                textStyle: { color: "var(--text-dark)" },
+                textStyle: { color: "#fff" },
               },
               tooltip: {},
               legend: [
                 {
                   data: ["已认证", "未认证"],
                   top: "bottom",
-                  textStyle: { color: "var(--text-dark)" },
+                  textStyle: { color: "#fff" },
                 },
               ],
               animationDurationUpdate: 1500,
@@ -2300,9 +2242,7 @@
                   lineStyle: { color: "source", curveness: 0.3 },
                 },
               ],
-            };
-            applyChartTheme(mapOpt);
-            mapChart.setOption(mapOpt);
+            });
           }, 600);
         }
 
@@ -2512,9 +2452,6 @@
           // 克隆并优化配置用于放大显示
           const modalOption = JSON.parse(JSON.stringify(originalChartData));
 
-          // 确保模态中的图表背景透明，和容器背景一致
-          modalOption.backgroundColor = 'transparent';
-
           // 针对不同图表类型进行优化
           if (modalOption.title && modalOption.title[0]) {
             modalOption.title[0].textStyle = {
@@ -2554,8 +2491,7 @@
             };
           }
 
-          // 统一主题并设置配置渲染
-          applyChartTheme(modalOption);
+          // 设置配置并渲染
           currentModalChart.setOption(modalOption);
 
           // 监听窗口大小变化

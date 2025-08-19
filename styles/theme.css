@@ -1,0 +1,201 @@
+/* Centralized theme for data-news
+   - 保持简单：变量决定主配色与玻璃样式
+   - 设计决策：配色已在此前步骤删除/设置为透明，theme 负责可维护的样式基线
+*/
+:root {
+  --reveal-duration: 0.8s;
+  /* 图表与玻璃基线 */
+  --chart-bg: #ffffff; /* 图表容器背景：白色 */
+  --glass-bg: #ffffff; /* 玻璃卡片基底使用白 */
+  --glass-border: rgba(0,0,0,0.06);
+  --text-dark: #072A4D; /* 主文本：深蓝色 */
+  /* 主题色变量：天蓝 / 白 / 黑 */
+  --color-primary: #60A5FA; /* 天蓝 */
+  --color-secondary: #ffffff; /* 白 */
+  --color-accent: #60A5FA; /* 辅助浅天蓝 */
+  /* 主色向稍深的天蓝偏移以融入背景 */
+  --color-primary: #2563EB;
+  --glass-bg: rgba(255,255,255,0.86);
+  --glass-border-strong: rgba(37,99,235,0.06);
+  --site-sky-from: #9fd8fb; /* 稍微更饱和的起点 */
+  --site-sky-to: #6fd0f9;   /* 稍微更饱和的终点 */
+}
+
+/* 大标题渐变样式（用于首页 hero 标题） */
+/* hero-title removed to restore original headline styling */
+
+/* 导航与交互控件（从各页面抽离至此） */
+.nav-section {
+  position: relative;
+  overflow: hidden;
+}
+.nav-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(96,165,250,0.06), transparent);
+  transition: left 0.5s;
+}
+.nav-section:hover::before { left: 100%; }
+.nav-active {
+  background: rgba(96,165,250,0.06) !important;
+  border-left: 3px solid var(--color-primary);
+  color: var(--color-primary) !important;
+}
+.nav-indicator {
+  position: fixed;
+  top: 50%;
+  right: 2px;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 200px;
+  background: rgba(0,0,0,0.04);
+  border-radius: 1px;
+  z-index: 40;
+}
+.nav-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(180deg, var(--color-primary), rgba(96,165,250,0.8));
+  border-radius: 1px;
+  transition: height 0.3s ease;
+}
+
+/* 模态与工具按钮 */
+.modal-close { color: rgba(0,0,0,0.7); }
+.image-modal, .chart-modal { background: rgba(0,0,0,0.03); }
+.chart-container::after { background: transparent; color: var(--text-dark); }
+
+/* Neutral utilities to replace colorful Tailwind utilities used in nav/hover */
+.nav-item-neutral { color: currentColor; }
+.nav-item-neutral:hover { color: var(--color-primary); }
+.nav-item-neutral-bg-hover:hover { background: transparent !important; }
+.group-hover-shadow-neutral:hover, .group-hover-shadow-neutral:focus { box-shadow: 0 12px 30px rgba(0,0,0,0.06) !important; }
+.group-hover-border-transparent:hover { border-color: transparent !important; }
+
+/* 基础正文 */
+body {
+  background: #ffffff;
+  color: var(--text-dark) !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+}
+
+/* Typography overrides: ensure headings and paragraph text use theme color
+   This overrides local page rules that set light gray/black for headings or paragraphs. */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-dark) !important;
+}
+
+p, .text-content, .subtitle, .text-current, .leading-relaxed, .text-center p {
+  color: var(--text-dark) !important;
+}
+
+/* Allow gradient / clipped text to show (override the h1/h2 color !important) */
+.bg-clip-text,
+.bg-clip-text *,
+.text-transparent.bg-clip-text,
+[class*="bg-clip-text"] {
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+}
+
+/* 玻璃卡片 */
+
+.glow-card {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(248,252,255,0.92));
+  border-radius: 1rem;
+  border: 1px solid var(--glass-border-strong);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 8px 26px rgba(37,99,235,0.04);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.glow-card:hover {
+  transform: translateY(-4px) translateZ(0);
+  box-shadow: 0 18px 44px rgba(37,99,235,0.08);
+}
+
+/* 弹幕 */
+.danmaku {
+  transition: all 0.18s cubic-bezier(0.4,0,0.2,1);
+  cursor: pointer;
+  background: transparent; /* 基线：透明，hover 可由组件覆盖 */
+  color: inherit;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  border: 1px solid rgba(7,42,77,0.06);
+  box-shadow: 0 6px 18px rgba(7,42,77,0.05);
+  font-size: 14px;
+  will-change: transform, box-shadow;
+}
+.danmaku:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 14px 30px rgba(0,0,0,0.08);
+  color: inherit;
+}
+
+/* 图表容器 */
+.chart-container {
+  /* 统一为柔和的玻璃渐变背景，使图表与页面背景融为一体 */
+  background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(247,253,255,0.95));
+  border: 1px solid var(--glass-border-strong);
+  position: relative;
+  overflow: hidden;
+  max-height: 60vh;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 30px rgba(7,42,77,0.04);
+}
+
+/* 站点统一背景类：使用稍微深一点的天蓝渐变 */
+.site-bg {
+  background: linear-gradient(180deg, var(--site-sky-from) 0%, var(--site-sky-to) 60%, #ffffff 100%);
+}
+
+.chart-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  pointer-events: none;
+}
+
+/* ECharts tooltip 基线 */
+.echarts-tooltip {
+  background: rgba(255,255,255,0.98) !important;
+  border: 1px solid rgba(30,64,175,0.08) !important;
+  color: var(--text-dark) !important;
+  border-radius: 8px !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  box-shadow: 0 8px 24px rgba(14,42,82,0.08) !important;
+}
+.echarts-tooltip-name { color: rgba(7,42,77,0.7) !important; }
+.echarts-tooltip-value { font-weight: 700 !important; }
+
+/* 内容块 */
+.text-content {
+  background: transparent;
+  border-radius: 1rem;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+/* 可用于覆盖旧有 text-white 的基线类 */
+.text-current { color: currentColor !important; }
+
+/* 小工具 */
+.reveal { will-change: opacity, transform; }
+
+/* 方便调试与扩展点 */
+:root.theme-debug { outline: none; }

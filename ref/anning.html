@@ -89,14 +89,14 @@
         box-shadow: none !important;
         border: none !important;
         border-radius: 28px !important;
-        background-color: #444 !important;
+  background-color: transparent !important;
         padding: 14px 14px 14px 24px !important;
         top: calc(100% - 11px) !important;
         -webkit-transform: translate(0, -100%) !important;
         -moz-transform: translate(0, -100%) !important;
         -ms-transform: translate(0, -100%) !important;
         transform: translate(0, -100%) !important;
-        color: white !important;
+  color: currentColor !important;
         line-height: 16px !important;
         letter-spacing: -0.08px !important;
         font-weight: 500 !important;
@@ -109,13 +109,13 @@
       }
       #CybotCookiebotDialog label {
         cursor: auto !important;
-        color: #ffffff !important;
+        color: currentColor !important;
       }
       .CookieCard button {
         cursor: auto !important;
       }
       #CybotCookiebotDialog[data-template="popup"] {
-        background-color: #4f4f4f !important;
+        background-color: transparent !important;
       }
       #CybotCookiebotDialog h2 {
         font-weight: 400 !important;
@@ -152,8 +152,8 @@
         margin: 0 !important;
         border: none !important;
         border-radius: 40px !important;
-        color: #444444 !important;
-        background-color: #ffffff !important;
+  color: currentColor !important;
+  background-color: transparent !important;
         padding: 8px 16px !important;
         font-weight: 500 !important;
         font-size: 12px !important;
@@ -309,7 +309,7 @@
         line-height: 16px !important;
       }
       #CybotCookiebotDialogDetailFooter a {
-        color: #fff !important;
+        color: currentColor !important;
         font-weight: 500 !important;
         -webkit-text-decoration: underline !important;
         text-decoration: underline !important;
@@ -342,7 +342,7 @@
         margin-bottom: 10px !important;
       }
       #CybotCookiebotDialogDetailCustomHeaderHideButtonWrapper {
-        border-color: #fff;
+        border-color: currentColor;
         -webkit-transform: rotate(-225deg);
         -moz-transform: rotate(-225deg);
         -ms-transform: rotate(-225deg);
@@ -4278,7 +4278,7 @@
           padding: 0;
           font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI",
             Roboto, Ubuntu, Arial, sans-serif;
-          color: #282828;
+          color: var(--text-dark);
           -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
           -webkit-font-smoothing: antialiased;
         }
